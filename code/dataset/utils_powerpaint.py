@@ -592,4 +592,39 @@ def generate_new_images(data, image_names):
                 horizontal_expansion_ratio = 2 #1-4
                 text_guided_prompt = ''
                 text_guided_negative_prompt = ''
-                outpaint_prompt = '
+                outpaint_prompt = ''
+                outpaint_negative_prompt = ''
+                removal_prompt = ''
+                removal_negative_prompt = ''
+
+                # Inpainting the target
+                dict_out, dict_res = controller.infer(
+                    input_image,
+                    text_guided_prompt,
+                    text_guided_negative_prompt,
+                    shape_guided_prompt,
+                    shape_guided_negative_prompt,
+                    fitting_degree,
+                    ddim_steps,
+                    scale,
+                    seed,
+                    task,
+                    vertical_expansion_ratio,
+                    horizontal_expansion_ratio,
+                    outpaint_prompt,
+                    outpaint_negative_prompt,
+                    removal_prompt,
+                    removal_negative_prompt,
+                )
+
+                save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
+                dict_out[0].save(save_path)
+        except Exception as e:
+            print(e)
+            continue
+            
+
+
+  
+
+
