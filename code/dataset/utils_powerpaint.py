@@ -629,7 +629,6 @@ def generate_new_images(data, image_names):
 
             for object_for_replacement in objects_for_replacement_list_lower:
                 regenerate = True
-                counter = 0
                 scale = 7.5 # 1-30
                 while regenerate:
                     if object_for_replacement[0][0] in ['a','e','i','o','u']:
@@ -683,13 +682,12 @@ def generate_new_images(data, image_names):
                         save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
                         dict_out[0].save(save_path)
                         regenerate = False
-                    elif counter > 10:
+                    elif scale == 30:
                         regenerate = False
                     else:
                         save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_scale{str(scale)}.jpg")
                         dict_out[0].save(save_path)
-                        scale += 2
-                        counter += 1
+                        scale += 2.5
                         
         except Exception as e:
             print(e)
