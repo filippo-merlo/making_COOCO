@@ -392,8 +392,9 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     things_names = [objects[i] for i in kidxs]
     random_3_names_lower = rn.sample(things_names, r)
 
-     # get 3 objects with the lowest relatedness score, near to 0
+     # get 3 objects with the higer relatedness score, near to 1
     kidxs, vals = select_k(semantic_relatedness_scores, 10, lower = False)
+    print(vals)
     things_names = [objects[i] for i in kidxs]
     random_3_names_higer = rn.sample(things_names, r)
 
@@ -636,6 +637,7 @@ def generate_new_images(data, image_names):
                     relatedness_lvl = 'middle'
                 else:
                     relatedness_lvl = 'higer'
+
                 for object_for_replacement in object_list:
                     if generated_object_counter >= 3:
                         break
