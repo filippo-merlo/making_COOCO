@@ -631,11 +631,19 @@ def generate_new_images(data, image_names):
                 regenerate = True
                 scale = 7.5 # 1-30
                 while regenerate:
+                    # prompt
                     if object_for_replacement[0][0] in ['a','e','i','o','u']:
                         art = 'an'
                     else:
                         art = 'a'
                     prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+                    # generate prompt
+                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus on its appearnece."
+                    inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+                    output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=100)
+                    full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
+                    print(full_output_llava_1)
+
                     shape_guided_prompt = prompt
                     shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
                     fitting_degree = 0.6 # 0-1
