@@ -271,7 +271,3 @@ Counter({'kitchen': 598,
 
 #%% selected
 selected = ['kitchen','living_room','home_office','bathroom','restaurant','bedroom','delicatessen','bakery/shop','pantry','coffee_shop','cubicle/office','banquet_hall','market/outdoor','dorm_room','dining_room','music_studio','art_studio','parking_lot','street','tower','fastfood_restaurant','train_railway','physics_laboratory','arrival_gate/outdoor','gas_station']
-
-
-
-
