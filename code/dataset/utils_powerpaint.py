@@ -385,23 +385,23 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     # remaining objects
     objects = [things_words_context[i] for i in idxs]
     semantic_relatedness_scores = [semantic_relatedness_scores[i] for i in idxs]
-    # sds
-
+    
     # get 3 objects with the lowest relatedness score, near to 0
+    r = 10
     kidxs, vals = select_k(semantic_relatedness_scores, 20, lower = True)
     things_names = [objects[i] for i in kidxs]
-    random_3_names_lower = rn.sample(things_names, 3)
+    random_3_names_lower = rn.sample(things_names, r)
 
      # get 3 objects with the lowest relatedness score, near to 0
     kidxs, vals = select_k(semantic_relatedness_scores, 20, lower = False)
     things_names = [objects[i] for i in kidxs]
-    random_3_names_higer = rn.sample(things_names, 3)
+    random_3_names_higer = rn.sample(things_names, r)
 
     # get 3 objects with relatedness score near to 0.5
     semantic_relatedness_scores_sub = [abs(score - 0.5) for score in semantic_relatedness_scores]
     kidxs, vals = select_k(semantic_relatedness_scores_sub, 20, lower = True)
     things_names = [objects[i] for i in kidxs]
-    random_3_names_middle = rn.sample(things_names, 3)
+    random_3_names_middle = rn.sample(things_names, r)
 
     return random_3_names_lower, random_3_names_middle, random_3_names_higer
 
@@ -626,77 +626,89 @@ def generate_new_images(data, image_names):
 
             # SELECT OBJECT TO REPLACE
             objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
+            list_of_lists = [objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer]
 
-            for object_for_replacement in objects_for_replacement_list_lower:
-                regenerate = True
-                scale = 7.5 # 1-30
-                # prompt
-                if object_for_replacement[0][0] in ['a','e','i','o','u']:
-                    art = 'an'
+            for list_idx, object_list in enumerate(list_of_lists):
+                generated_object_counter = 0
+                if list_idx == 0:
+                    relatedness_lvl = 'lower'
+                elif list_idx == 1:
+                    relatedness_lvl = 'middle'
                 else:
-                    art = 'a'
-                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
-                # generate prompt
-                prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece. Be syntetic and concise."
-                inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
-                output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
-                full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
-                full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
-                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
-                print(prompt)
-                shape_guided_prompt = prompt
-                shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
-                fitting_degree = 0.6 # 0-1
-                ddim_steps = 45 # 1-50
-                #scale = 7.5 # 1-30
-                seed = random.randint(0, 2147483647) # 0-2147483647
-                task = "shape-guided"
-                vertical_expansion_ratio = 2 #1-4
-                horizontal_expansion_ratio = 2 #1-4
-                text_guided_prompt = ''
-                text_guided_negative_prompt = ''
-                outpaint_prompt = ''
-                outpaint_negative_prompt = ''
-                removal_prompt = ''
-                removal_negative_prompt = ''
-
-                while regenerate:
-                    # Inpainting the target
-                    dict_out, dict_res = controller.infer(
-                        input_image,
-                        text_guided_prompt,
-                        text_guided_negative_prompt,
-                        shape_guided_prompt,
-                        shape_guided_negative_prompt,
-                        fitting_degree,
-                        ddim_steps,
-                        scale,
-                        seed,
-                        task,
-                        vertical_expansion_ratio,
-                        horizontal_expansion_ratio,
-                        outpaint_prompt,
-                        outpaint_negative_prompt,
-                        removal_prompt,
-                        removal_negative_prompt,
-                    )
-                    # Check With LLAVA if the object is present
-                    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
-                    inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
-                    output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
-                    full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
-                    print(full_output_llava)
-
-                    if "Yes" in full_output_llava[-5:]:
-                        save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
-                        dict_out[0].save(save_path)
-                        regenerate = False
-                    elif scale == 30:
-                        regenerate = False
+                    relatedness_lvl = 'higer'
+                for object_for_replacement in object_list:
+                    if generated_object_counter >= 3:
+                        break
+                    regenerate = True
+                    scale = 7.5 # 1-30
+                    # prompt
+                    if object_for_replacement[0][0] in ['a','e','i','o','u']:
+                        art = 'an'
                     else:
-                        save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_scale{str(scale)}.jpg")
-                        dict_out[0].save(save_path)
-                        scale += 2.5
+                        art = 'a'
+                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+                    # generate prompt
+                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece. Be syntetic and concise."
+                    inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+                    output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
+                    full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
+                    full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
+                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
+                    print(prompt)
+                    shape_guided_prompt = prompt
+                    shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
+                    fitting_degree = 0.6 # 0-1
+                    ddim_steps = 45 # 1-50
+                    #scale = 7.5 # 1-30
+                    task = "shape-guided"
+                    vertical_expansion_ratio = 2 #1-4
+                    horizontal_expansion_ratio = 2 #1-4
+                    text_guided_prompt = ''
+                    text_guided_negative_prompt = ''
+                    outpaint_prompt = ''
+                    outpaint_negative_prompt = ''
+                    removal_prompt = ''
+                    removal_negative_prompt = ''
+
+                    while regenerate:
+                        seed = random.randint(0, 2147483647) # 0-2147483647
+                        # Inpainting the target
+                        dict_out, dict_res = controller.infer(
+                            input_image,
+                            text_guided_prompt,
+                            text_guided_negative_prompt,
+                            shape_guided_prompt,
+                            shape_guided_negative_prompt,
+                            fitting_degree,
+                            ddim_steps,
+                            scale,
+                            seed,
+                            task,
+                            vertical_expansion_ratio,
+                            horizontal_expansion_ratio,
+                            outpaint_prompt,
+                            outpaint_negative_prompt,
+                            removal_prompt,
+                            removal_negative_prompt,
+                        )
+                        # Check With LLAVA if the object is present
+                        prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
+                        inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
+                        output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
+                        full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
+                        print(full_output_llava)
+
+                        if "Yes" in full_output_llava[-5:]:
+                            save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_rel_lvl_{relatedness_lvl}.jpg")
+                            dict_out[0].save(save_path)
+                            regenerate = False
+                            generated_object_counter += 1
+                        elif scale == 30:
+                            regenerate = False
+                        else:
+                            save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_scale{str(scale)}.jpg")
+                            dict_out[0].save(save_path)
+                            scale += 7.5
                         
         except Exception as e:
             print(e)
