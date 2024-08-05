@@ -673,12 +673,11 @@ def generate_new_images(data, image_names):
                         removal_negative_prompt,
                     )
                     # Check With LLAVA if the object is present
-                    prompt_llava = f"[INST] <image>\n Is {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? Answer \"Yes\" or \"No\". [/INST]"
+                    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? Answer \"Yes\" or \"No\". [/INST]"
                     inputs_llava = llava_processor(prompt_llava, image, return_tensors="pt").to("cuda")
                     output_llava = llava_model.generate(**inputs_llava, max_new_tokens=100)
                     full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
                     print(full_output_llava)
-                    #
 
                     if "Yes" in full_output_llava[-5:]:
                         save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
