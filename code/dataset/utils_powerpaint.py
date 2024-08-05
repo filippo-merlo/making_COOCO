@@ -353,43 +353,57 @@ def find_object_for_replacement(target_object_name, scene_name):
 
 def find_object_for_replacement_continuous(target_object_name, scene_name):
     # get the more similar in size with the less semantic relatedness to the scene
-    final_scores = []
+    size_scores = []
+    semantic_relatedness_scores = []
 
+    #filter by size
     for thing in things_words_context:
-        # exclude objects that are labelled as typical for the scene by llama-3
-        related = False
-        for object in llama_norms[scene_name][thing]:
-            if object[1]>object[2]:
-                related = True
-        if related:
-            scene_relatedness_score = 100
-        else:
-            scene_relatedness_score = 0
+        # SEM REL
+        scene_vect = scenes2vec[scene_name]
+        object_vect = things2vec[thing]
+        semantic_relatedness_scores.append(cosine_similarity(scene_vect, object_vect))
 
+        # SIZE
         # target size
         things_name_target = map_coco2things[target_object_name]
         target_size_score = things_plus_size_mean_matrix[things_plus_size_mean_matrix['WordContext']==things_name_target]['Size_mean'].values[0]
-        
         # object size
-        object_size_score = things_plus_size_mean_matrix[things_plus_size_mean_matrix['WordContext']==thing]['Size_mean'].values[0]
-        
-        # modify to get only smaller objects
-        #size_distance = abs((target_size_score - object_size_score)/math.sqrt(target_sd_size_score**2 + object_sd_size_score**2))
-        size_distance = (target_size_score - object_size_score)#/math.sqrt(target_sd_size_score**2 + object_sd_size_score**2)
-        if size_distance < 0:
-            size_distance = 100
+        # remove same object from the possible replacements
+        if map_coco2things[target_object_name] == thing:
+            size_scores.append(500)
+        else:
+            object_size_score = things_plus_size_mean_matrix[things_plus_size_mean_matrix['WordContext']==thing]['Size_mean'].values[0]
+            size_scores.append(abs(target_size_score - object_size_score))
 
-        total_score = size_distance + scene_relatedness_score
+    idxs = list(range(len(things_words_context)))
+    # filter all the objects that have more than d_max size distance
+    d_max = 50
+    for i, score in enumerate(size_scores):
+        if score > d_max:
+            idxs.remove(i)
 
-        if thing == things_name_target or related:
-            total_score = 100
+    # remaining objects
+    objects = [things_words_context[i] for i in idxs]
+    semantic_relatedness_scores = [semantic_relatedness_scores[i] for i in idxs]
 
-        final_scores.append(total_score)
 
-    kidxs, vals = select_k(final_scores, 15, lower = True)
-    things_names = [things_words_context[i] for i in kidxs]
-    random_3_names = rn.sample(things_names, 3)
-    return random_3_names
+    # get 3 objects with the lowest relatedness score, near to 0
+    kidxs, vals = select_k(semantic_relatedness_scores, 15, lower = True)
+    things_names = [objects[i] for i in kidxs]
+    random_3_names_lower = rn.sample(things_names, 3)
+
+     # get 3 objects with the lowest relatedness score, near to 0
+    kidxs, vals = select_k(semantic_relatedness_scores, 15, lower = False)
+    things_names = [objects[i] for i in kidxs]
+    random_3_names_higer = rn.sample(things_names, 3)
+
+    # get 3 objects with relatedness score near to 0.5
+    semantic_relatedness_scores_sub = [abs(score - 0.5) for score in semantic_relatedness_scores]
+    kidxs, vals = select_k(semantic_relatedness_scores_sub, 15, lower = True)
+    things_names = [objects[i] for i in kidxs]
+    random_3_names_middle = rn.sample(things_names, 3)
+
+    return random_3_names_lower, random_3_names_middle, random_3_names_higer
 
 def get_images_names(substitutes_list):
     # get things images paths [(name, path)...]
@@ -602,7 +616,6 @@ def generate_new_images(data, image_names):
 
             # remove the object before background
             image_clean = remove_object(image_picture, object_mask)
-            #image_patch, image_patch_mask, patch_coord, bbox_in_mask = get_image_square_patch_rescaled(image_clean, target_bbox, 100)
             image, mask = get_square_image(image_clean, target_bbox)
             mask = mask.convert('RGB')
 
@@ -612,10 +625,10 @@ def generate_new_images(data, image_names):
             }
 
             # SELECT OBJECT TO REPLACE
-            objects_for_replacement_list = find_object_for_replacement(target, scene_category)
-            #images_names, images_paths = compare_imgs(cropped_target_only_image, objects_for_replacement_list)
-            #print(images_names)
+            objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
+
             for object_for_replacement in objects_for_replacement_list:
+            
                 if object_for_replacement[0][0] in ['a','e','i','o','u']:
                     art = 'an'
                 else:
@@ -656,6 +669,7 @@ def generate_new_images(data, image_names):
                     removal_prompt,
                     removal_negative_prompt,
                 )
+                # Check With LLAVA if the object is present
 
                 save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
                 dict_out[0].save(save_path)
