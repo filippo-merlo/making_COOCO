@@ -149,7 +149,8 @@ def init_image_prep_models():
                                                               quantization_config=quantization_config,
                                                               low_cpu_mem_usage=True,
                                                               device_map={"":LLAVA_DEVICE},
-                                                              cache_dir=CACHE_DIR_SHARED)
+                                                              cache_dir=CACHE_DIR_SHARED,
+                                                              use_flash_attention_2=True)
 
 
     return vit_processor, vit_model, vitc_image_processor, vitc_model, simple_lama, llava_processor, llava_model
