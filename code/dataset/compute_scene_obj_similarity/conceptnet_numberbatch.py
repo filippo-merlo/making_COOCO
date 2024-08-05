@@ -82,7 +82,7 @@ d = {
  'orange_rind': word2vec['rind'], 
  'swing_set': word2vec['swingset']
  }
-for k, v in d.items:
+for k, v in d.items():
     things2vec[k] = v
 
 d = {
@@ -92,7 +92,7 @@ d = {
  'bakery/shop': word2vec['bakery'], 
  'cubicle/office': word2vec['cubicle']
  }
-for k, v in d.items:
+for k, v in d.items():
     scenes2vec[k] = v
 
 #%%
