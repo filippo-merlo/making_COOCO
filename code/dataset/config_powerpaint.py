@@ -139,10 +139,14 @@ def init_image_prep_models():
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.float16,
     )
+    quantization_config =  BitsAndBytesConfig(
+        load_in_8bit=True
+    )
 
     llava_processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",  cache_dir=CACHE_DIR_SHARED)
 
     llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
+                                                              quantization_config=quantization_config,
                                                               low_cpu_mem_usage=True,
                                                               device_map={"":LLAVA_DEVICE},
                                                               cache_dir=CACHE_DIR_SHARED)
