@@ -29,6 +29,9 @@ llama_ade_object_scene_similarities_path = os.path.join(data_folder_path,'scene_
 things_plus_size_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/size_meanRatings.tsv')
 things_plus_typicality_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/typicality_meanRatings.tsv')
 things_plus_categories_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/category53_wideFormat.tsv')
+things2vect_path = 'compute_scene_obj_similarity/conceptnet_numberbatch_sim/things2vec.pkl'
+scenes2vect_path = 'compute_scene_obj_similarity/conceptnet_numberbatch_sim/scenes2vec.pkl'
+
 # Path for images
 things_images_path = os.path.join(data_folder_path,'THINGS/Images')
 # IMPORT DATA
@@ -36,6 +39,12 @@ things_images_path = os.path.join(data_folder_path,'THINGS/Images')
 things_plus_size_mean_matrix = pd.read_csv(things_plus_size_mean_path, sep='\t', engine='python', encoding='utf-8')
 things_plus_typicality_mean_matrix = pd.read_csv(things_plus_typicality_mean_path, sep='\t', engine='python', encoding='utf-8')
 things_plus_categories = pd.read_csv(things_plus_categories_path, sep='\t', engine='python', encoding='utf-8')
+
+with open(things2vect_path, 'rb') as f:
+    things2vec = pkl.load(f)
+    
+with open(scenes2vect_path, 'rb') as f:
+    scenes2vec = pkl.load(f)
 
 with open(llama_ade_object_scene_similarities_path, 'rb') as f:
     llama_norms = pkl.load(f)
