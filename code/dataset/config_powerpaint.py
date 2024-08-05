@@ -133,12 +133,6 @@ def init_image_prep_models():
     simple_lama = SimpleLama()
 
     # LLAVA
-
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float16,
-    )
     quantization_config =  BitsAndBytesConfig(
         load_in_8bit=True
     )
