@@ -686,6 +686,8 @@ def generate_new_images(data, image_names):
                     elif counter > 10:
                         regenerate = False
                     else:
+                        save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
+                        dict_out[0].save(save_path)
                         scale += 0.5
                         counter += 1
                         
