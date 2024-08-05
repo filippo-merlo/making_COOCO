@@ -630,37 +630,37 @@ def generate_new_images(data, image_names):
             for object_for_replacement in objects_for_replacement_list_lower:
                 regenerate = True
                 scale = 7.5 # 1-30
+                # prompt
+                if object_for_replacement[0][0] in ['a','e','i','o','u']:
+                    art = 'an'
+                else:
+                    art = 'a'
+                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+                # generate prompt
+                prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece."
+                inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+                output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=75)
+                full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
+                print(full_output_llava_1)
+
+                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_llava_1.replace(f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece.", "")
+                shape_guided_prompt = prompt
+                shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
+                fitting_degree = 0.6 # 0-1
+                ddim_steps = 45 # 1-50
+                #scale = 7.5 # 1-30
+                seed = random.randint(0, 2147483647) # 0-2147483647
+                task = "shape-guided"
+                vertical_expansion_ratio = 2 #1-4
+                horizontal_expansion_ratio = 2 #1-4
+                text_guided_prompt = ''
+                text_guided_negative_prompt = ''
+                outpaint_prompt = ''
+                outpaint_negative_prompt = ''
+                removal_prompt = ''
+                removal_negative_prompt = ''
+                
                 while regenerate:
-                    # prompt
-                    if object_for_replacement[0][0] in ['a','e','i','o','u']:
-                        art = 'an'
-                    else:
-                        art = 'a'
-                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
-                    # generate prompt
-                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece."
-                    inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
-                    output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=75)
-                    full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
-                    print(full_output_llava_1)
-
-                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_llava_1.replace(f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece.", "")
-                    shape_guided_prompt = prompt
-                    shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
-                    fitting_degree = 0.6 # 0-1
-                    ddim_steps = 45 # 1-50
-                    #scale = 7.5 # 1-30
-                    seed = random.randint(0, 2147483647) # 0-2147483647
-                    task = "shape-guided"
-                    vertical_expansion_ratio = 2 #1-4
-                    horizontal_expansion_ratio = 2 #1-4
-                    text_guided_prompt = ''
-                    text_guided_negative_prompt = ''
-                    outpaint_prompt = ''
-                    outpaint_negative_prompt = ''
-                    removal_prompt = ''
-                    removal_negative_prompt = ''
-
                     # Inpainting the target
                     dict_out, dict_res = controller.infer(
                         input_image,
