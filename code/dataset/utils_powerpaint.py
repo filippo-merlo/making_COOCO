@@ -377,7 +377,7 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
 
     idxs = list(range(len(things_words_context)))
     # filter all the objects that have more than d_max size distance
-    d_max = 100
+    d_max = 50
     for i, score in enumerate(size_scores):
         if score > d_max:
             idxs.remove(i)
@@ -388,18 +388,18 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     
     # get 3 objects with the lowest relatedness score, near to 0
     r = 10
-    kidxs, vals = select_k(semantic_relatedness_scores, 20, lower = True)
+    kidxs, vals = select_k(semantic_relatedness_scores, 10, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_lower = rn.sample(things_names, r)
 
      # get 3 objects with the lowest relatedness score, near to 0
-    kidxs, vals = select_k(semantic_relatedness_scores, 20, lower = False)
+    kidxs, vals = select_k(semantic_relatedness_scores, 10, lower = False)
     things_names = [objects[i] for i in kidxs]
     random_3_names_higer = rn.sample(things_names, r)
 
     # get 3 objects with relatedness score near to 0.5
     semantic_relatedness_scores_sub = [abs(score - 0.5) for score in semantic_relatedness_scores]
-    kidxs, vals = select_k(semantic_relatedness_scores_sub, 20, lower = True)
+    kidxs, vals = select_k(semantic_relatedness_scores_sub, 10, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_middle = rn.sample(things_names, r)
 
@@ -709,7 +709,6 @@ def generate_new_images(data, image_names):
                             save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_scale{str(scale)}.jpg")
                             dict_out[0].save(save_path)
                             scale += 7.5
-                        
         except Exception as e:
             print(e)
             continue
