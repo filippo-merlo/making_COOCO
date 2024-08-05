@@ -645,7 +645,7 @@ def generate_new_images(data, image_names):
                 prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
                 print(prompt)
                 shape_guided_prompt = prompt
-                shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
+                shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
                 fitting_degree = 0.6 # 0-1
                 ddim_steps = 45 # 1-50
                 #scale = 7.5 # 1-30
