@@ -639,7 +639,7 @@ def generate_new_images(data, image_names):
                 # generate prompt
                 prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece."
                 inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
-                output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=75)
+                output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
                 full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
                 print(full_output_llava_1)
 
@@ -659,7 +659,7 @@ def generate_new_images(data, image_names):
                 outpaint_negative_prompt = ''
                 removal_prompt = ''
                 removal_negative_prompt = ''
-                
+
                 while regenerate:
                     # Inpainting the target
                     dict_out, dict_res = controller.infer(
