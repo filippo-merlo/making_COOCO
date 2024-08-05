@@ -385,7 +385,7 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     # remaining objects
     objects = [things_words_context[i] for i in idxs]
     semantic_relatedness_scores = [semantic_relatedness_scores[i] for i in idxs]
-
+    # sds
 
     # get 3 objects with the lowest relatedness score, near to 0
     kidxs, vals = select_k(semantic_relatedness_scores, 20, lower = True)
