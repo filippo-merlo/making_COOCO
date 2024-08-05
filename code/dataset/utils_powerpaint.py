@@ -644,6 +644,7 @@ def generate_new_images(data, image_names):
                     full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
                     print(full_output_llava_1)
 
+                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_llava_1
                     shape_guided_prompt = prompt
                     shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
                     fitting_degree = 0.6 # 0-1
