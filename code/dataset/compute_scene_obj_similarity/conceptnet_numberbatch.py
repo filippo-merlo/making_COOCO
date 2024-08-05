@@ -76,22 +76,23 @@ len(scenes2vec)
 print(sen_scene_to_keep-scenes2vec.keys())
 
 #%% By hand
-
-for k, v in {
+d = {
  'fishnet_stockings': word2vec['stockings'], 
  'iceskate': word2vec['ice_skate'], 
  'orange_rind': word2vec['rind'], 
  'swing_set': word2vec['swingset']
- }.items:
+ }
+for k, v in d.items:
     things2vec[k] = v
 
-for k, v in{
+d = {
  'physics_laboratory': word2vec['laboratory'], 
  'fastfood_restaurant': word2vec['fast_food_restaurant'], 
  'train_railway': word2vec['railway'], 
  'bakery/shop': word2vec['bakery'], 
  'cubicle/office': word2vec['cubicle']
- }.items:
+ }
+for k, v in d.items:
     scenes2vec[k] = v
 
 #%%
