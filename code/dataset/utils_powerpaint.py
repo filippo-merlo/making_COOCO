@@ -628,51 +628,66 @@ def generate_new_images(data, image_names):
             objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
 
             for object_for_replacement in objects_for_replacement_list_lower:
-            
-                if object_for_replacement[0][0] in ['a','e','i','o','u']:
-                    art = 'an'
-                else:
-                    art = 'a'
-                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
-                shape_guided_prompt = prompt
-                shape_guided_negative_prompt = ''
-                fitting_degree = 0.6 # 0-1
-                ddim_steps = 45 # 1-50
+                regenerate = True
+                counter = 0
                 scale = 7.5 # 1-30
-                seed = random.randint(0, 2147483647) # 0-2147483647
-                task = "shape-guided"
-                vertical_expansion_ratio = 2 #1-4
-                horizontal_expansion_ratio = 2 #1-4
-                text_guided_prompt = ''
-                text_guided_negative_prompt = ''
-                outpaint_prompt = ''
-                outpaint_negative_prompt = ''
-                removal_prompt = ''
-                removal_negative_prompt = ''
+                while regenerate:
+                    if object_for_replacement[0][0] in ['a','e','i','o','u']:
+                        art = 'an'
+                    else:
+                        art = 'a'
+                    prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+                    shape_guided_prompt = prompt
+                    shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
+                    fitting_degree = 0.6 # 0-1
+                    ddim_steps = 45 # 1-50
+                    #scale = 7.5 # 1-30
+                    seed = random.randint(0, 2147483647) # 0-2147483647
+                    task = "shape-guided"
+                    vertical_expansion_ratio = 2 #1-4
+                    horizontal_expansion_ratio = 2 #1-4
+                    text_guided_prompt = ''
+                    text_guided_negative_prompt = ''
+                    outpaint_prompt = ''
+                    outpaint_negative_prompt = ''
+                    removal_prompt = ''
+                    removal_negative_prompt = ''
 
-                # Inpainting the target
-                dict_out, dict_res = controller.infer(
-                    input_image,
-                    text_guided_prompt,
-                    text_guided_negative_prompt,
-                    shape_guided_prompt,
-                    shape_guided_negative_prompt,
-                    fitting_degree,
-                    ddim_steps,
-                    scale,
-                    seed,
-                    task,
-                    vertical_expansion_ratio,
-                    horizontal_expansion_ratio,
-                    outpaint_prompt,
-                    outpaint_negative_prompt,
-                    removal_prompt,
-                    removal_negative_prompt,
-                )
-                # Check With LLAVA if the object is present
+                    # Inpainting the target
+                    dict_out, dict_res = controller.infer(
+                        input_image,
+                        text_guided_prompt,
+                        text_guided_negative_prompt,
+                        shape_guided_prompt,
+                        shape_guided_negative_prompt,
+                        fitting_degree,
+                        ddim_steps,
+                        scale,
+                        seed,
+                        task,
+                        vertical_expansion_ratio,
+                        horizontal_expansion_ratio,
+                        outpaint_prompt,
+                        outpaint_negative_prompt,
+                        removal_prompt,
+                        removal_negative_prompt,
+                    )
+                    # Check With LLAVA if the object is present
+                    prompt_llava = f"[INST] <image>\n Is {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? Answer \"Yes\" or \"No\". [/INST]"
+                    inputs_llava = llava_processor(prompt_llava, image, return_tensors="pt").to("cuda")
+                    output_llava = llava_model.generate(**inputs_llava, max_new_tokens=100)
+                    full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
 
-                save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
-                dict_out[0].save(save_path)
+                    if "Yes" in full_output_llava[-5:]:
+                        save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
+                        dict_out[0].save(save_path)
+                        regenerate = False
+                    elif counter > 10:
+                        regenerate = False
+                    else:
+                        scale += 0.5
+                        counter += 1
+                        
         except Exception as e:
             print(e)
             continue

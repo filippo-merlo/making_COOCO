@@ -42,7 +42,7 @@ things_plus_categories = pd.read_csv(things_plus_categories_path, sep='\t', engi
 
 with open(things2vect_path, 'rb') as f:
     things2vec = pkl.load(f)
-    
+
 with open(scenes2vect_path, 'rb') as f:
     scenes2vec = pkl.load(f)
 
@@ -91,7 +91,8 @@ coco_object_cat =  [{"supercategory": "person","id": 1,"name": "person"},{"super
 # Initialize the model for scene categorization
 import wandb
 import torch
-from transformers import AutoImageProcessor, ViTForImageClassification, ViTModel, AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoImageProcessor, ViTForImageClassification, ViTModel
+from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, BitsAndBytesConfig
 from simple_lama_inpainting import SimpleLama
 
 # set devices
@@ -131,9 +132,25 @@ def init_image_prep_models():
     # Inpaint LaMa
     simple_lama = SimpleLama()
 
-    return vit_processor, vit_model, vitc_image_processor, vitc_model, simple_lama
+    # LLAVA
+
+    quantization_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.float16,
+    )
+
+    llava_processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf")
+
+    llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
+                                                              quantization_config=quantization_config,
+                                                              low_cpu_mem_usage=True,
+                                                              device_map={"":DEVICE})
+
+
+    return vit_processor, vit_model, vitc_image_processor, vitc_model, simple_lama, llava_processor, llava_model
 #
-vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama = init_image_prep_models()
+vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_processor, llava_model = init_image_prep_models()
 
 # POWERPAINT CONFIG
 from powerPaint import *
