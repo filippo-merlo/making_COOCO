@@ -97,7 +97,7 @@ from simple_lama_inpainting import SimpleLama
 
 # set devices
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-
+LLAVA_DEVICE = 'cuda:0'
 # Create the label to ID mapping
 label2id = {label: idx for idx, label in enumerate(sun_scene_cat)}
 # Reverse the mapping to create ID to label mapping
@@ -144,7 +144,7 @@ def init_image_prep_models():
 
     llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
                                                               low_cpu_mem_usage=True,
-                                                              device_map={"":DEVICE},
+                                                              device_map={"":LLAVA_DEVICE},
                                                               cache_dir=CACHE_DIR_SHARED)
 
 

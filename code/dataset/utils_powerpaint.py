@@ -674,7 +674,7 @@ def generate_new_images(data, image_names):
                     )
                     # Check With LLAVA if the object is present
                     prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? Answer \"Yes\" or \"No\". [/INST]"
-                    inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to("cuda")
+                    inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
                     output_llava = llava_model.generate(**inputs_llava, max_new_tokens=100)
                     full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
                     print(full_output_llava)
