@@ -627,7 +627,7 @@ def generate_new_images(data, image_names):
             # SELECT OBJECT TO REPLACE
             objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
 
-            for object_for_replacement in objects_for_replacement_list:
+            for object_for_replacement in objects_for_replacement_list_lower:
             
                 if object_for_replacement[0][0] in ['a','e','i','o','u']:
                     art = 'an'
