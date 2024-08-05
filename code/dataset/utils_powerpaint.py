@@ -351,6 +351,46 @@ def find_object_for_replacement(target_object_name, scene_name):
     random_3_names = rn.sample(things_names, 3)
     return random_3_names
 
+def find_object_for_replacement_continuous(target_object_name, scene_name):
+    # get the more similar in size with the less semantic relatedness to the scene
+    final_scores = []
+
+    for thing in things_words_context:
+        # exclude objects that are labelled as typical for the scene by llama-3
+        related = False
+        for object in llama_norms[scene_name][thing]:
+            if object[1]>object[2]:
+                related = True
+        if related:
+            scene_relatedness_score = 100
+        else:
+            scene_relatedness_score = 0
+
+        # target size
+        things_name_target = map_coco2things[target_object_name]
+        target_size_score = things_plus_size_mean_matrix[things_plus_size_mean_matrix['WordContext']==things_name_target]['Size_mean'].values[0]
+        
+        # object size
+        object_size_score = things_plus_size_mean_matrix[things_plus_size_mean_matrix['WordContext']==thing]['Size_mean'].values[0]
+        
+        # modify to get only smaller objects
+        #size_distance = abs((target_size_score - object_size_score)/math.sqrt(target_sd_size_score**2 + object_sd_size_score**2))
+        size_distance = (target_size_score - object_size_score)#/math.sqrt(target_sd_size_score**2 + object_sd_size_score**2)
+        if size_distance < 0:
+            size_distance = 100
+
+        total_score = size_distance + scene_relatedness_score
+
+        if thing == things_name_target or related:
+            total_score = 100
+
+        final_scores.append(total_score)
+
+    kidxs, vals = select_k(final_scores, 15, lower = True)
+    things_names = [things_words_context[i] for i in kidxs]
+    random_3_names = rn.sample(things_names, 3)
+    return random_3_names
+
 def get_images_names(substitutes_list):
     # get things images paths [(name, path)...]
     things_folder_names = list(set([things_words_id[things_words_context.index(n)] for n in substitutes_list]))

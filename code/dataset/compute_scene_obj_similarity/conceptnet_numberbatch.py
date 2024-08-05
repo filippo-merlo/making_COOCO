@@ -11,9 +11,7 @@ with open(path, 'r') as file:
             break
         parts = line.split(' ')
         word2vec[parts[0]] = np.array([float(x) for x in parts[1:]])
-#%%
-print(len(word2vec))
-print(list(word2vec.keys())[:10])
+
 
 #%%
 import pandas as pd
@@ -31,6 +29,11 @@ things_plus_size_mean_matrix = pd.read_csv(things_plus_size_mean_path, sep='\t',
 things_plus_typicality_mean_matrix = pd.read_csv(things_plus_typicality_mean_path, sep='\t', engine='python', encoding='utf-8')
 things_plus_categories = pd.read_csv(things_plus_categories_path, sep='\t', engine='python', encoding='utf-8')
 
+id2context = {}
+for i, row in things_plus_size_mean_matrix.iterrows():
+    id2context[row['uniqueID']] = row['WordContext']
+id2context
+#%%
 # NAMES AND CATEGORIES
 # Scene Names
 # categories of the SUN397 dataset
@@ -54,7 +57,7 @@ things2vec = {}
 for w in list(things_plus_size_mean_matrix['uniqueID']):
     w_nonum = remove_numbers(w).replace('-','_')
     if w_nonum in word2vec.keys():
-        things2vec[w] = word2vec[w_nonum]
+        things2vec[id2context[w]] = word2vec[w_nonum]
 
 #%%
 # Scenes
@@ -64,16 +67,6 @@ for s in sen_scene_to_keep:
     print(ss)
     if ss in word2vec.keys():
         scenes2vec[s] = word2vec[ss]
-#%%
-print(len(list(things_plus_size_mean_matrix['uniqueID'])))
-len(things2vec)
-#%%
-print([w for w in list(things_plus_size_mean_matrix['uniqueID']) if remove_numbers(w).replace('-','_') not in word2vec.keys()])
-#%%
-print(len(sen_scene_to_keep))
-len(scenes2vec)
-
-print(sen_scene_to_keep-scenes2vec.keys())
 
 #%% By hand
 d = {
@@ -102,3 +95,5 @@ with open('things2vec.pkl', 'wb') as f:
     pickle.dump(things2vec, f)
 with open('scenes2vec.pkl', 'wb') as f:
     pickle.dump(scenes2vec, f)
+
+# %%
