@@ -377,7 +377,7 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
 
     idxs = list(range(len(things_words_context)))
     # filter all the objects that have more than d_max size distance
-    d_max = 50
+    d_max = 100
     for i, score in enumerate(size_scores):
         if score > d_max:
             idxs.remove(i)
