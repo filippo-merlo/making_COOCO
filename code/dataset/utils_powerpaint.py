@@ -641,7 +641,8 @@ def generate_new_images(data, image_names):
                 inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
                 output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
                 full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
-                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_llava_1.replace(prompt_llava_1, "")
+                full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
+                prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
                 print(prompt)
                 shape_guided_prompt = prompt
                 shape_guided_negative_prompt = 'humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
@@ -680,7 +681,7 @@ def generate_new_images(data, image_names):
                         removal_negative_prompt,
                     )
                     # Check With LLAVA if the object is present
-                    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_llava_1.replace(prompt_llava_1, "")}. Answer only with \"Yes\" or \"No\". [/INST]"
+                    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
                     inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
                     output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
                     full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
