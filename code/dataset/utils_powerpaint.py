@@ -411,7 +411,7 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     random_3_names_higer = rn.sample(things_names, r)
 
     # get 3 objects with relatedness score near to 0.5
-    semantic_relatedness_scores_sub = [abs(score - 0.2) for score in semantic_relatedness_scores]
+    semantic_relatedness_scores_sub = [abs(score - 0.25) for score in semantic_relatedness_scores]
     kidxs, vals = select_k(semantic_relatedness_scores_sub, k, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_middle = rn.sample(things_names, r)
