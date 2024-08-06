@@ -377,7 +377,7 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
 
     idxs = list(range(len(things_words_context)))
     # filter all the objects that have more than d_max size distance
-    d_max = 50
+    d_max = 25
     for i, score in enumerate(size_scores):
         if score > d_max:
             idxs.remove(i)
@@ -387,20 +387,21 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     semantic_relatedness_scores = [semantic_relatedness_scores[i] for i in idxs]
     
     # get 3 objects with the lowest relatedness score, near to 0
-    r = 10
-    kidxs, vals = select_k(semantic_relatedness_scores, 10, lower = True)
+    k = 15
+    r = 15
+    kidxs, vals = select_k(semantic_relatedness_scores, k, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_lower = rn.sample(things_names, r)
 
-     # get 3 objects with the higer relatedness score, near to 1
-    kidxs, vals = select_k(semantic_relatedness_scores, 10, lower = False)
+    # get 3 objects with the higer relatedness score, near to 1
+    kidxs, vals = select_k(semantic_relatedness_scores, k, lower = False)
     print(vals)
     things_names = [objects[i] for i in kidxs]
     random_3_names_higer = rn.sample(things_names, r)
 
     # get 3 objects with relatedness score near to 0.5
     semantic_relatedness_scores_sub = [abs(score - 0.3) for score in semantic_relatedness_scores]
-    kidxs, vals = select_k(semantic_relatedness_scores_sub, 10, lower = True)
+    kidxs, vals = select_k(semantic_relatedness_scores_sub, k, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_middle = rn.sample(things_names, r)
 
@@ -627,16 +628,16 @@ def generate_new_images(data, image_names):
 
             # SELECT OBJECT TO REPLACE
             objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
-            list_of_lists = [objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer]
+            list_of_lists = [objects_for_replacement_list_lower]
 
             for list_idx, object_list in enumerate(list_of_lists):
                 generated_object_counter = 0
-                if list_idx == 0:
-                    relatedness_lvl = 'lower'
-                elif list_idx == 1:
-                    relatedness_lvl = 'middle'
-                else:
-                    relatedness_lvl = 'higer'
+                #if list_idx == 0:
+                #    relatedness_lvl = 'lower'
+                #elif list_idx == 1:
+                #    relatedness_lvl = 'middle'
+                #else:
+                #    relatedness_lvl = 'higer'
 
                 for object_for_replacement in object_list:
                     if generated_object_counter >= 3:
@@ -701,7 +702,7 @@ def generate_new_images(data, image_names):
                         print(full_output_llava)
 
                         if "Yes" in full_output_llava[-5:]:
-                            save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_rel_lvl_{relatedness_lvl}.jpg")
+                            save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
                             dict_out[0].save(save_path)
                             regenerate = False
                             generated_object_counter += 1
