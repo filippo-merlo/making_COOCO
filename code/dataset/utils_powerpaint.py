@@ -639,16 +639,16 @@ def generate_new_images(data, image_names):
 
             # SELECT OBJECT TO REPLACE
             objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle, objects_for_replacement_list_lower_higer = find_object_for_replacement_continuous(target, scene_category)
-            list_of_lists = [objects_for_replacement_list_lower]
+            list_of_lists = [objects_for_replacement_list_lower, objects_for_replacement_list_lower_middle]
 
             for list_idx, object_list in enumerate(list_of_lists):
                 generated_object_counter = 0
-                #if list_idx == 0:
-                #    relatedness_lvl = 'lower'
-                #elif list_idx == 1:
-                #    relatedness_lvl = 'middle'
-                #else:
-                #    relatedness_lvl = 'higer'
+                if list_idx == 0:
+                    relatedness_lvl = 'low'
+                elif list_idx == 1:
+                    relatedness_lvl = 'middle'
+                else:
+                    relatedness_lvl = 'high'
 
                 for object_for_replacement in object_list:
                     if generated_object_counter >= 3:
@@ -713,7 +713,7 @@ def generate_new_images(data, image_names):
                         print(full_output_llava)
 
                         if "Yes" in full_output_llava[-5:]:
-                            save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}.jpg")
+                            save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
                             dict_out[0].save(save_path)
                             regenerate = False
                             generated_object_counter += 1
