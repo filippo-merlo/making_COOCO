@@ -78,9 +78,17 @@ def sum_lists(list1, list2):
     
     return [x + y for x, y in zip(list1, list2)]
 
-def cosine_similarity(vec1, vec2):
+def cosine_similarity(vec1, vec2, epsilon=1e-10):
     """
     Compute the cosine similarity between two vectors.
+    
+    Args:
+        vec1: A numpy array representing the first vector.
+        vec2: A numpy array representing the second vector.
+        epsilon: A small value to prevent division by zero (default: 1e-10).
+        
+    Returns:
+        Cosine similarity between vec1 and vec2.
     """
     # Compute the dot product of the vectors
     dot_product = np.dot(vec1, vec2)
@@ -89,8 +97,11 @@ def cosine_similarity(vec1, vec2):
     norm_vec1 = np.linalg.norm(vec1)
     norm_vec2 = np.linalg.norm(vec2)
     
+    # Add epsilon to avoid division by zero
+    denominator = norm_vec1 * norm_vec2 + epsilon
+    
     # Compute the cosine similarity
-    cosine_sim = dot_product / (norm_vec1 * norm_vec2)
+    cosine_sim = dot_product / denominator
     
     return cosine_sim
 
