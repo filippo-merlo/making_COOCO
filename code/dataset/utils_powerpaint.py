@@ -619,8 +619,11 @@ def get_square_image(image, target_bbox):
     draw.rectangle([new_x, new_y, new_x + new_w, new_y + new_h], fill=255)
     
     return image, mask
+
+from tqdm import tqdm
+
 def generate_new_images(data, image_names):
-    for img_name in image_names:
+    for img_name in tqdm(image_names):
         try:
             # Get the masked image with target and scene category
             target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
