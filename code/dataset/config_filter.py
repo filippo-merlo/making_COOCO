@@ -16,6 +16,9 @@ data_folder_path = '/mnt/cimec-storage6/users/filippo.merlo/sceneREG_data/'
 # Paths for the already made dataset 
 dataset_path = os.path.join(data_folder_path,'coco_search18/coco_search18_annotated.json')
 
+# Paths for the generated images
+PATH_TO_IMAGES = "/mnt/cimec-storage6/users/filippo.merlo/sceneREG_data/generated_images"
+
 # Path for mappings
 map_coco2things_path = os.path.join(data_folder_path,'mappings/map_coco2things.json')
 
@@ -26,6 +29,7 @@ scenes2vect_path = 'compute_scene_obj_similarity/conceptnet_numberbatch_sim/scen
 
 # Path for images
 things_images_path = os.path.join(data_folder_path,'THINGS/Images')
+
 # IMPORT DATA
 # Object scene similarity metrics matices and norms 
 things_plus_size_mean_matrix = pd.read_csv(things_plus_size_mean_path, sep='\t', engine='python', encoding='utf-8')
