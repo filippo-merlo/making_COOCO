@@ -650,7 +650,7 @@ Key: [image_name] {
 }
 '''
 # Get the masked image with target and scene category
-for image_name in IMAGE_NAMES[0]:
+for image_name in IMAGE_NAMES[:0]:
     
     image_name = image_name.split('_')[0]
     print(image_name)
