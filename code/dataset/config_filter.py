@@ -24,6 +24,8 @@ map_coco2things_path = os.path.join(data_folder_path,'mappings/map_coco2things.j
 
 # Path for object scene similarity metrics matices and norms
 things_plus_size_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/size_meanRatings.tsv')
+things_plus_typicality_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/typicality_meanRatings.tsv')
+things_plus_categories_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/category53_wideFormat.tsv')
 things2vect_path = 'compute_scene_obj_similarity/conceptnet_numberbatch_sim/things2vec.pkl'
 scenes2vect_path = 'compute_scene_obj_similarity/conceptnet_numberbatch_sim/scenes2vec.pkl'
 
