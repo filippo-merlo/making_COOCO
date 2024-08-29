@@ -576,6 +576,7 @@ def get_image_square_patch_rescaled(image, target_bbox, padding):
 #%%
 ### List to store the names of all image files
 IMAGE_NAMES = []
+IMAGE_SIZES = []
 
 # Walk through the directory
 for root, dirs, files in os.walk(PATH_TO_IMAGES):
@@ -584,8 +585,11 @@ for root, dirs, files in os.walk(PATH_TO_IMAGES):
             # Append the file name to the list
             IMAGE_NAMES.append(file)
 
-# Display the list of image file names
-print(IMAGE_NAMES)
+            image_path = os.path.join(root, file)
+            
+            # Open the image and get its size
+            with Image.open(image_path) as img:
+                IMAGE_SIZES.append(img.size)
 
 # load all the other data for the dataset
 dataset = Dataset(dataset_path = dataset_path)
@@ -650,7 +654,7 @@ Key: [image_name] {
 }
 '''
 # Get the masked image with target and scene category
-for image_name in IMAGE_NAMES[:1]:
+for i, image_name in enumerate(IMAGE_NAMES[:1]):
 
     image_name = image_name.split('_')[0] + '.jpg'
     print(image_name)
@@ -661,6 +665,7 @@ for image_name in IMAGE_NAMES[:1]:
     print(image_clean.size)
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
     print(image.size)
+    print(IMAGE_SIZES[i])
 
 
 # match the info of scene, objec, bbox 
