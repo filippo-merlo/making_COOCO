@@ -608,6 +608,32 @@ def get_square_image(image, target_bbox):
     
     return image, mask, new_bbox
 
+def resize_bbox(old_bbox, old_size, new_size):
+    """
+    Resizes the bounding box according to the new image size.
+
+    :param old_bbox: Tuple of (x, y, w, h) representing the original bounding box.
+    :param old_size: Tuple of (width, height) representing the original image size.
+    :param new_size: Tuple of (width, height) representing the new image size.
+    :return: Tuple of (x, y, w, h) representing the resized bounding box.
+    """
+    x, y, w, h = old_bbox
+    old_width, old_height = old_size
+    new_width, new_height = new_size
+
+    # Calculate scaling factors for width and height
+    scale_x = new_width / old_width
+    scale_y = new_height / old_height
+
+    # Resize the bounding box
+    new_x = x * scale_x
+    new_y = y * scale_y
+    new_w = w * scale_x
+    new_h = h * scale_y
+
+    new_bbox = (new_x, new_y, new_w, new_h)
+
+    return new_bbox
 #%%
 # Define complete dataset:
 '''
@@ -659,16 +685,14 @@ Key: [image_name] {
 for i, image_name in enumerate(IMAGE_NAMES[:10]):
     print('********')
     image_name = image_name.split('_')[0] + '.jpg'
-    print(image_name)
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_name)
-    print(image_picture.size)
     # remove the object before background
     image_clean = remove_object(image_picture, object_mask)
-    print(image_clean.size)
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
-    print(image.size)
-    print(IMAGE_SIZES[i])
-    
+    old_size = image.size
+    final_size = IMAGE_SIZES[i]
+    final_bbox = resize_bbox(new_bbox, old_size, final_size)
+    print(old_size, new_bbox, final_size, final_bbox)
 
 
 # match the info of scene, objec, bbox 
