@@ -651,8 +651,9 @@ Key: [image_name] {
 '''
 # Get the masked image with target and scene category
 for image_name in IMAGE_NAMES[0]:
+    
     image_name = image_name.split('_')[0]
-
+    print(image_name)
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_name)
     print(image_picture.size)
     # remove the object before background
