@@ -87,7 +87,7 @@ from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, 
 from simple_lama_inpainting import SimpleLama
 
 # set devices
-LLAVA_DEVICE = 'cuda:0'
+LLAVA_DEVICE = 'cuda:1'
 # Create the label to ID mapping
 label2id = {label: idx for idx, label in enumerate(sun_scene_cat)}
 # Reverse the mapping to create ID to label mapping
