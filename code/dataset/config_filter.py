@@ -22,6 +22,11 @@ PATH_TO_IMAGES = "/mnt/cimec-storage6/users/filippo.merlo/sceneREG_data/generate
 # Path for mappings
 map_coco2things_path = os.path.join(data_folder_path,'mappings/map_coco2things.json')
 
+# Paths for making the dataset 
+coco_ann_path = os.path.join(data_folder_path,'coco_search18/coco_annotations')
+coco_search_ann_path = os.path.join(data_folder_path,'coco_search18/coco_search18_TP')
+coco_images_path = os.path.join(data_folder_path,'coco_search18/images')
+
 # Path for object scene similarity metrics matices and norms
 things_plus_size_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/size_meanRatings.tsv')
 things_plus_typicality_mean_path = os.path.join(data_folder_path,'THINGSplus/Metadata/Concept-specific/typicality_meanRatings.tsv')
