@@ -646,16 +646,18 @@ Key: [image_name] {
         Key: [data]
             Key: [scene]
             Key: [target]
+            Key: [swapped_object]
             Key: [target_bbox]
             Key: [rel_level]
             Key: [rel_score]
+            Key: [excluded]
     }
     
 }
 '''
 # Get the masked image with target and scene category
-for i, image_name in enumerate(IMAGE_NAMES[:1]):
-
+for i, image_name in enumerate(IMAGE_NAMES[:10]):
+    print('********')
     image_name = image_name.split('_')[0] + '.jpg'
     print(image_name)
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_name)
@@ -666,6 +668,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:1]):
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
     print(image.size)
     print(IMAGE_SIZES[i])
+    
 
 
 # match the info of scene, objec, bbox 
