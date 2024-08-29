@@ -1,5 +1,4 @@
 #%%
-from utils_powerpaint import *
 from dataset import *
 import pandas as pd
 import pickle as pkl
