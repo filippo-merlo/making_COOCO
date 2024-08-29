@@ -660,6 +660,7 @@ for image_name in IMAGE_NAMES[:1]:
     image_clean = remove_object(image_picture, object_mask)
     print(image_clean.size)
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
+    print(image.size)
 
 
 # match the info of scene, objec, bbox 
