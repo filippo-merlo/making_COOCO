@@ -125,7 +125,6 @@ def select_k(alist, k, lower = True):
     
     return k_indices, k_values
 
-
 import numpy as np
 from scipy.spatial import ConvexHull
 
