@@ -94,7 +94,13 @@ from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, 
 from simple_lama_inpainting import SimpleLama
 
 # set devices
-LLAVA_DEVICE = 'cuda:1'
+
+# Automatically detect available GPUs
+available_gpus = [f'cuda:{i}' for i in range(torch.cuda.device_count())]
+
+# Set LLAVA device map to distribute across all available GPUs
+LLAVA_DEVICE_MAP = {f'{i}': gpu for i, gpu in enumerate(available_gpus)}
+
 # Create the label to ID mapping
 label2id = {label: idx for idx, label in enumerate(sun_scene_cat)}
 # Reverse the mapping to create ID to label mapping
@@ -117,7 +123,7 @@ def init_image_prep_models():
     llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
                                                               quantization_config=quantization_config,
                                                               low_cpu_mem_usage=True,
-                                                              device_map={"":LLAVA_DEVICE},
+                                                              device_map={"":LLAVA_DEVICE_MAP},
                                                               cache_dir=CACHE_DIR_SHARED)
 
 

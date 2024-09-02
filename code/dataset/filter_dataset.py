@@ -716,7 +716,6 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
             img_data = img_data.replace(target_name, '')
             break
     
-
     if not re.search('original', image_name):
         swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
     else:
