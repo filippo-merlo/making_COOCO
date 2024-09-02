@@ -735,7 +735,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     semantic_relatedness_score = cosine_similarity(scene_vect, object_vect)
     print(semantic_relatedness_score)
-    
+    '''
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
     # remove the object before background
@@ -747,6 +747,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     print(target_bbox)
     print(final_bbox)
+    '''
 
 
 
