@@ -709,7 +709,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     # get target remove target
     for target in coco_object_cat:
         target_coco_name = target['name']
-        target_name = coco_name.replace('/','_').replace(' ','_')
+        target_name = target_coco_name.replace('/','_').replace(' ','_')
         if re.search(target_name, img_data):
             target_name = target_name
             img_data = img_data.replace(target_name, '')
