@@ -688,10 +688,6 @@ def resize_bbox(old_bbox, old_size, new_size):
 }
 '''
 final_dataset = {}
-final_dataset_path = os.path.join(data_folder_path, 'final_dataset.json')
-with open(final_dataset_path, 'w') as f:
-    json.dump(final_dataset, f)
-
 coco_objects_list = []
 for target in coco_object_cat:
     coco_objects_list.append(target['name'])
@@ -701,7 +697,7 @@ coco_objects_list = sorted(coco_objects_list, key=len, reverse=True)
 for i, image_name in enumerate(IMAGE_NAMES[:]):
     print(image_name)
     final_dataset[image_name] = {}
-    
+
     img_data = image_name.replace('.jpg','')
     image_number = image_name.split('_')[0]
     img_data = img_data.replace(image_number, '')
