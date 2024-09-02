@@ -715,8 +715,8 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     for target in coco_objects_list:
         target_coco_name = target
         target_name = target.replace('/','_').replace(' ','_')
-        data = '_'.join(img_data.lstrip('_').split('_')[:2])
-        if target_name == data or target_name == data.split('_')[0]:
+        restricted_name = '_'.join(img_data.lstrip('_').split('_')[:2])
+        if target_name == restricted_name or target_name == restricted_name.split('_')[0]:
             img_data = img_data.replace(target_name, '')
             break
     
