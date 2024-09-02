@@ -689,6 +689,7 @@ final_dataset = {}
 
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:]):
+    print(image_name)
     final_dataset[image_name] = {}
     
     img_data = image_name.replace('.jpg','')
