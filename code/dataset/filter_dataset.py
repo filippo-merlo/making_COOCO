@@ -586,7 +586,7 @@ for root, dirs, files in os.walk(PATH_TO_IMAGES):
             # Append the file name to the list
             IMAGE_NAMES.append(file)
 
-            image_path = os.path.join(root, file)ù
+            image_path = os.path.join(root, file)
             IMAGES_PATHS.append(image_path)
             
             # Open the image and get its size
