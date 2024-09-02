@@ -708,7 +708,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     # get target remove target
     for target in coco_object_cat:
-        coco_name = target['name']
+        target_coco_name = target['name']
         target_name = coco_name.replace('/','_').replace(' ','_')
         if re.search(target_name, img_data):
             target_name = target_name
@@ -728,7 +728,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     scene_vect = scenes2vec[scene_name]
     if re.search('original', image_name):
-        object_vect = things2vec[map_coco2things[coco_name]]
+        object_vect = things2vec[map_coco2things[target_coco_name]]
     else:
         object_vect = things2vec[swapped_object]
 
