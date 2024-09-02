@@ -15,7 +15,7 @@ from tqdm import tqdm
 import pandas as pd
 import pickle as pkl
 import json
-
+import re
 #%%
 # DATASET CLASS
 class Dataset:
@@ -685,19 +685,45 @@ def resize_bbox(old_bbox, old_size, new_size):
     
 }
 '''
+final_dataset = {}
+
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:10]):
-    print('********')
-    image_name = image_name.split('_')[0] + '.jpg'
-    target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_name)
+    final_dataset[image_name] = {}
+    
+    if re.search('original', image_name):
+        final_dataset[image_name].update(data[image_name])
+
+    image_number = image_name.split('_')[0] + '.jpg'
+    img_data = image_name.replace('.jpg','')
+
+    # get scene remove scene
+    for scene in sun_scene_to_keep:
+        if re.seatch(scene.replace('/','_'), img_data):
+            scene_name = scene
+            img_data.replace(scene, '')
+            break
+
+    # get target remove target
+    for target in coco_object_cat:
+        target_name = target['name'].replace('/','_').replace(' ','_')
+        if re.search(target_name, img_data):
+            target_name = target_name
+            img_data.replace(target_name, '')
+            break
+    
+    print(img_data)
+
+    # get bbox info 
+    target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
     # remove the object before background
     image_clean = remove_object(image_picture, object_mask)
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
     old_size = image.size
     final_size = IMAGE_SIZES[i] 
     final_bbox = resize_bbox(new_bbox, old_size, final_size)
-    print(old_size, new_bbox, final_size, final_bbox)
-    print(data[image_name])
+    #print(old_size, new_bbox, final_size, final_bbox)
+
 
 # match the info of scene, objec, bbox 
 
