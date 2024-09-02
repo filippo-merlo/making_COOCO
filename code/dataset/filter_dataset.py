@@ -699,7 +699,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
 
     # get scene remove scene
     for scene in sun_scene_to_keep:
-        if re.seatch(scene.replace('/','_'), img_data):
+        if re.search(scene.replace('/','_'), img_data):
             scene_name = scene
             img_data.replace(scene, '')
             break
