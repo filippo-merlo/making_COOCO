@@ -730,7 +730,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     if re.search('original', image_name):
         object_vect = things2vec[map_coco2things[target_coco_name]]
     else:
-        object_vect = things2vec[swapped_object]
+        object_vect = things2vec[swapped_object.replace('_',' ')]
 
     semantic_relatedness_score = cosine_similarity(scene_vect, object_vect)
     print(semantic_relatedness_score)
