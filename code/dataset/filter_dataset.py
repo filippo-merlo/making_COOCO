@@ -766,7 +766,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
         full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
         full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
 
-        with open(IMAGE_PATHS[i], 'rb') as f:
+        with open(IMAGES_PATHS[i], 'rb') as f:
             final_database_image = Image.open(f)
             final_database_image = image.convert('RGB')
 
