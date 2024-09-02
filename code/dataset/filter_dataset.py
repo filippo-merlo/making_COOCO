@@ -688,7 +688,7 @@ def resize_bbox(old_bbox, old_size, new_size):
 final_dataset = {}
 
 # Get the masked image with target and scene category
-for i, image_name in enumerate(IMAGE_NAMES[:10]):
+for i, image_name in enumerate(IMAGE_NAMES[:]):
     final_dataset[image_name] = {}
     
     img_data = image_name.replace('.jpg','')
@@ -704,7 +704,6 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
         if re.search(scene.replace('/','_'), img_data):
             scene_name = scene
             img_data = img_data.replace(scene, '')
-            print('ok')
             break
 
     # get target remove target
@@ -713,17 +712,16 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
         if re.search(target_name, img_data):
             target_name = target_name
             img_data = img_data.replace(target_name, '')
-            print('ok')
             break
     
-    print(img_data)
-    print(img_data.lstrip('_').split('_relscore_'))
-    #swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
+
+    if not re.search('original', image_name):
+        swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
 
     print(scene_name)
     print(target_name)
-    #print(swapped_object)
-    #print(rel_level)
+    print(swapped_object)
+    print(rel_level)
     print('-------------------')
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
