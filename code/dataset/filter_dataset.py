@@ -687,7 +687,7 @@ def resize_bbox(old_bbox, old_size, new_size):
 '''
 final_dataset = {}
 coco_objects_list = []
- for target in coco_object_cat:
+for target in coco_object_cat:
     coco_objects_list.append(target['name'])
 coco_objects_list = sorted(coco_objects_list, key=len, reverse=True)
 
