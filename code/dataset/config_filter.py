@@ -123,7 +123,7 @@ def init_image_prep_models():
     llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
                                                               quantization_config=quantization_config,
                                                               low_cpu_mem_usage=True,
-                                                              device_map={"":LLAVA_DEVICE_MAP},
+                                                              device_map=LLAVA_DEVICE_MAP,
                                                               cache_dir=CACHE_DIR_SHARED)
 
 
