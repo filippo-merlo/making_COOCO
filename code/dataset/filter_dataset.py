@@ -691,18 +691,20 @@ final_dataset = {}
 for i, image_name in enumerate(IMAGE_NAMES[:10]):
     final_dataset[image_name] = {}
     
-    image_number = image_name.split('_')[0] + '.jpg'
+    img_data = image_name.replace('.jpg','')
+    image_number = image_name.split('_')[0]
+    img_data = img_data.replace(image_number, '')
+    image_number = image_number + '.jpg'
 
     if re.search('original', image_name):
         final_dataset[image_name].update(data[image_number])
 
-    img_data = image_name.replace('.jpg','')
 
     # get scene remove scene
     for scene in sun_scene_to_keep:
         if re.search(scene.replace('/','_'), img_data):
             scene_name = scene
-            img_data.replace(scene, '')
+            img_data = img_data.replace(scene, '')
             print('ok')
             break
 
@@ -711,7 +713,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
         target_name = target['name'].replace('/','_').replace(' ','_')
         if re.search(target_name, img_data):
             target_name = target_name
-            img_data.replace(target_name, '')
+            img_data = img_data.replace(target_name, '')
             print('ok')
             break
     
