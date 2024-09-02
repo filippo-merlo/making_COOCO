@@ -691,10 +691,11 @@ final_dataset = {}
 for i, image_name in enumerate(IMAGE_NAMES[:10]):
     final_dataset[image_name] = {}
     
-    if re.search('original', image_name):
-        final_dataset[image_name].update(data[image_name])
-
     image_number = image_name.split('_')[0] + '.jpg'
+
+    if re.search('original', image_name):
+        final_dataset[image_name].update(data[image_number])
+        
     img_data = image_name.replace('.jpg','')
 
     # get scene remove scene
