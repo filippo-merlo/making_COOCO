@@ -708,7 +708,8 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     # get target remove target
     for target in coco_object_cat:
-        target_name = target['name'].replace('/','_').replace(' ','_')
+        coco_name = target['name']
+        target_name = coco_name.replace('/','_').replace(' ','_')
         if re.search(target_name, img_data):
             target_name = target_name
             img_data = img_data.replace(target_name, '')
@@ -722,7 +723,18 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     print(target_name)
     print(swapped_object)
     print(rel_level)
-    print('-------------------')
+
+    swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
+
+    scene_vect = scenes2vec[scene_name]
+    if re.search('original', image_name):
+        object_vect = things2vec[map_coco2things[coco_name]]
+    else:
+        object_vect = things2vec[swapped_object]
+
+    semantic_relatedness_scores.append(cosine_similarity(scene_vect, object_vect))
+    print(semantic_relatedness_scores)
+    
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
     # remove the object before background
@@ -731,7 +743,12 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     old_size = image.size
     final_size = IMAGE_SIZES[i] 
     final_bbox = resize_bbox(new_bbox, old_size, final_size)
-    #print(old_size, new_bbox, final_size, final_bbox)
+
+    print(target_bbox)
+    print(final_bbox)
+
+
+
 
 
 # match the info of scene, objec, bbox 
