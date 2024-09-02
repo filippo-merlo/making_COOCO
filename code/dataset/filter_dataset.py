@@ -768,7 +768,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
         with open(IMAGES_PATHS[i], 'rb') as f:
             final_database_image = Image.open(f)
-            final_database_image = image.convert('RGB')
+            final_database_image = final_database_image.convert('RGB')
 
         prompt_llava = f"[INST] <image>\n Is there {art} \"{swapped_object.replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
         inputs_llava = llava_processor(prompt_llava, final_database_image, return_tensors="pt").to("cuda")
