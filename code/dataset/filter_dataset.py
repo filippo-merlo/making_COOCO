@@ -577,6 +577,7 @@ def get_image_square_patch_rescaled(image, target_bbox, padding):
 ### List to store the names of all image files
 IMAGE_NAMES = []
 IMAGE_SIZES = []
+IMAGES_PATHS = []
 
 # Walk through the directory
 for root, dirs, files in os.walk(PATH_TO_IMAGES):
@@ -585,7 +586,8 @@ for root, dirs, files in os.walk(PATH_TO_IMAGES):
             # Append the file name to the list
             IMAGE_NAMES.append(file)
 
-            image_path = os.path.join(root, file)
+            image_path = os.path.join(root, file)ù
+            IMAGES_PATHS.append(image_path)
             
             # Open the image and get its size
             with Image.open(image_path) as img:
@@ -759,13 +761,17 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
         prompt = f"{art} {swapped_object.replace('_',' ')}"
         # generate prompt
         prompt_llava_1 = f"Write a general description of the object \"{swapped_object.replace('_',' ')}\". Focus only on its appearnece. Be syntetic and concise."
-        inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+        inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to("cuda")
         output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
         full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
         full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
 
+        with open(IMAGE_PATHS[i], 'rb') as f:
+            final_database_image = Image.open(f)
+            final_database_image = image.convert('RGB')
+
         prompt_llava = f"[INST] <image>\n Is there {art} \"{swapped_object.replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
-        inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
+        inputs_llava = llava_processor(prompt_llava, final_database_image, return_tensors="pt").to("cuda")
         output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
         full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
         print(full_output_llava)
