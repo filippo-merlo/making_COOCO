@@ -751,24 +751,34 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     print(final_bbox)
     '''
     # Check With LLAVA if the object is present
-    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
-    inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
-    output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
-    full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
-    print(full_output_llava)
+    if not re.search('original', image_name):
+        if swapped_object in ['a','e','i','o','u']:
+            art = 'an'
+        else:
+            art = 'a'
+        prompt = f"{art} {swapped_object.replace('_',' ')}"
+        # generate prompt
+        prompt_llava_1 = f"Write a general description of the object \"{swapped_object.replace('_',' ')}\". Focus only on its appearnece. Be syntetic and concise."
+        inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+        output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
+        full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
+        full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
 
-    if "Yes" in full_output_llava[-5:]:
-        regenerate = False
-        generated_object_counter += 1
-    elif scale == 30:
-        regenerate = False
+        prompt_llava = f"[INST] <image>\n Is there {art} \"{swapped_object.replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
+        inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
+        output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
+        full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
+        print(full_output_llava)
+
+        if "Yes" in full_output_llava[-5:]:
+            excluded = False
+        else:
+            excluded = True
     else:
-        scale += 7.5
+        excluded = False
 
-
-
-
-
+    
+           
 # match the info of scene, objec, bbox 
 
 
