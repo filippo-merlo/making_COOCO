@@ -732,7 +732,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     else:
         object_vect = things2vec[swapped_object]
 
-    semantic_relatedness_scores.append(cosine_similarity(scene_vect, object_vect))
+    semantic_relatedness_score = cosine_similarity(scene_vect, object_vect)
     print(semantic_relatedness_scores)
     
     # get bbox info 
