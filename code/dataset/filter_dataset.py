@@ -710,7 +710,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
             scene_name = scene
             img_data = img_data.replace(scene, '')
             break
-
+    print(img_data)
     # get target remove target
     for target in coco_objects_list:
         target_coco_name = target
