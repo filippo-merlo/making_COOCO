@@ -686,6 +686,10 @@ def resize_bbox(old_bbox, old_size, new_size):
 }
 '''
 final_dataset = {}
+coco_objects_list = []
+ for target in coco_object_cat:
+    coco_objects_list.append(target['name'])
+coco_objects_list = sorted(coco_objects_list, key=len, reverse=True)
 
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:]):
@@ -708,9 +712,9 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
             break
 
     # get target remove target
-    for target in coco_object_cat:
-        target_coco_name = target['name']
-        target_name = target_coco_name.replace('/','_').replace(' ','_')
+    for target in coco_objects_list:
+        target_coco_name = target
+        target_name = target.replace('/','_').replace(' ','_')
         if re.search(target_name, img_data):
             target_name = target_name
             img_data = img_data.replace(target_name, '')
