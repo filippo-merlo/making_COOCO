@@ -699,7 +699,6 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
     if re.search('original', image_name):
         final_dataset[image_name].update(data[image_number])
 
-
     # get scene remove scene
     for scene in sorted(sun_scene_to_keep, key=len, reverse=True):
         if re.search(scene.replace('/','_'), img_data):
@@ -717,8 +716,13 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
             print('ok')
             break
     
-    print(img_data)
+    swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
 
+    print(scene_name)
+    print(target_name)
+    print(swapped_object)
+    print(rel_level)
+    print('-------------------')
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
     # remove the object before background
