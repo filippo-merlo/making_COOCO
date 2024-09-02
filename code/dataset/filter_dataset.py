@@ -720,7 +720,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
         if target_name == restricted_name or target_name == restricted_name.split('_')[0]:
             img_data = img_data.replace(target_name, '')
             break
-    
+    print(img_data)
     if not re.search('original', image_name):
         swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
     else:
