@@ -113,7 +113,6 @@ def init_image_prep_models():
     llava_processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",  cache_dir=CACHE_DIR_SHARED)
 
     llava_model = LlavaNextForConditionalGeneration.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf",
-                                                              quantization_config=quantization_config,
                                                               low_cpu_mem_usage=True,
                                                               device_map='auto',
                                                               max_memory ={0: "20GB", 1: "20GB"},

@@ -750,6 +750,20 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     print(target_bbox)
     print(final_bbox)
     '''
+    # Check With LLAVA if the object is present
+    prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
+    inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
+    output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
+    full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
+    print(full_output_llava)
+
+    if "Yes" in full_output_llava[-5:]:
+        regenerate = False
+        generated_object_counter += 1
+    elif scale == 30:
+        regenerate = False
+    else:
+        scale += 7.5
 
 
 
