@@ -716,12 +716,14 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
             print('ok')
             break
     
-    swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
+    print(img_data)
+    print(img_data.lstrip('_').split('_relscore_'))
+    #swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
 
     print(scene_name)
     print(target_name)
-    print(swapped_object)
-    print(rel_level)
+    #print(swapped_object)
+    #print(rel_level)
     print('-------------------')
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
