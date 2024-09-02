@@ -718,13 +718,13 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     if not re.search('original', image_name):
         swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
+    else:
+        rel_level = img_data.lstrip('_').split('_relscore_')[-1]
 
     print(scene_name)
     print(target_name)
     print(swapped_object)
     print(rel_level)
-
-    swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
 
     scene_vect = scenes2vec[scene_name]
     if re.search('original', image_name):
