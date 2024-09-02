@@ -631,13 +631,13 @@ def resize_bbox(old_bbox, old_size, new_size):
     new_w = w * scale_x
     new_h = h * scale_y
 
-    new_bbox = (new_x, new_y, new_w, new_h)
+    new_bbox = (int(new_x), int(new_y), int(new_w), int(new_h))
 
     return new_bbox
 #%%
 # Define complete dataset:
 '''
-Key: [image_name] {
+{
     Key: [original_name] {
         Key: [data]
             Key: [scene]
@@ -690,13 +690,11 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
     image_clean = remove_object(image_picture, object_mask)
     image, mask, new_bbox = get_square_image(image_clean, target_bbox)
     old_size = image.size
-    final_size = IMAGE_SIZES[i]
+    final_size = IMAGE_SIZES[i] 
     final_bbox = resize_bbox(new_bbox, old_size, final_size)
     print(old_size, new_bbox, final_size, final_bbox)
 
-
 # match the info of scene, objec, bbox 
-
 
 
 # unify everything in a single dataset
