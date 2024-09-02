@@ -715,10 +715,11 @@ for i, image_name in enumerate(IMAGE_NAMES[:1]):
     for target in coco_objects_list:
         target_coco_name = target
         target_name = target.replace('/','_').replace(' ','_')
-        if re.search(target_name, img_data):
-            target_name = target_name
-            img_data = img_data.replace(target_name, '')
-            break
+        data = img_data.lstrip('_').split('_')[:2].join('_')
+        if re.search(target_name, data):
+            if target_name == data or target_name = data.split('_')[0]:
+                img_data = img_data.replace(target_name, '')
+                break
     
     if not re.search('original', image_name):
         swapped_object, rel_level = img_data.lstrip('_').split('_relscore_')
