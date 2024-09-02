@@ -642,7 +642,11 @@ def resize_bbox(old_bbox, old_size, new_size):
         Key: [data]
             Key: [scene]
             Key: [target]
+            Key: [swapped_object]
             Key: [target_bbox]
+            Key: [rel_level]
+            Key: [rel_score]
+            Key: [excluded]
         Key: [fixations]
             Key: [name], Type of Value: [str]
             Key: [subject], Type of Value: [int]
@@ -693,6 +697,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:10]):
     final_size = IMAGE_SIZES[i] 
     final_bbox = resize_bbox(new_bbox, old_size, final_size)
     print(old_size, new_bbox, final_size, final_bbox)
+    print(data[image_name])
 
 # match the info of scene, objec, bbox 
 
