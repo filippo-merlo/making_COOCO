@@ -688,11 +688,15 @@ def resize_bbox(old_bbox, old_size, new_size):
 }
 '''
 final_dataset = {}
+final_dataset_path = os.path.join(data_folder_path, 'final_dataset.json')
+with open(final_dataset_path, 'w') as f:
+    json.dump(final_dataset, f)
+
 coco_objects_list = []
 for target in coco_object_cat:
     coco_objects_list.append(target['name'])
 coco_objects_list = sorted(coco_objects_list, key=len, reverse=True)
-print(coco_objects_list)
+
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:]):
     final_dataset[image_name] = {}
@@ -726,11 +730,6 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     else:
         rel_level = img_data.lstrip('_').split('_relscore_')[-1]
 
-    print(scene_name)
-    print(target_name)
-    print(swapped_object)
-    print(rel_level)
-
     scene_vect = scenes2vec[scene_name]
     if re.search('original', image_name):
         object_vect = things2vec[map_coco2things[target_coco_name]]
@@ -739,7 +738,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 
     semantic_relatedness_score = cosine_similarity(scene_vect, object_vect)
     print(semantic_relatedness_score)
-    '''
+    
     # get bbox info 
     target, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data, image_number)
     # remove the object before background
@@ -749,9 +748,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     final_size = IMAGE_SIZES[i] 
     final_bbox = resize_bbox(new_bbox, old_size, final_size)
 
-    print(target_bbox)
-    print(final_bbox)
-    '''
+    
     # Check With LLAVA if the object is present
     if not re.search('original', image_name):
         if swapped_object in ['a','e','i','o','u']:
@@ -783,11 +780,32 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     else:
         excluded = False
 
+    print(scene_name)
+    print(target_name)
+    print(swapped_object)
+    print(rel_level)
+    print(target_bbox)
+    print(final_bbox)
+    print(semantic_relatedness_score)
+    print(excluded)
+
+    final_dataset[image_name]['scene'] = scene_name
+    final_dataset[image_name]['target'] = target_name
+    if not re.search('original', image_name):
+        final_dataset[image_name]['swapped_object'] = swapped_object
+        final_dataset[image_name]['target_bbox'] = final_bbox
+        final_dataset[image_name]['rel_level'] = rel_level
+        final_dataset[image_name]['rel_score'] = semantic_relatedness_score
+        final_dataset[image_name]['excluded'] = excluded
+
+    else:
+        final_dataset[image_name]['swapped_object'] = None
+        final_dataset[image_name]['target_bbox'] = target_bbox
+        final_dataset[image_name]['rel_level'] = None
+        final_dataset[image_name]['rel_score'] = semantic_relatedness_score
+        final_dataset[image_name]['excluded'] = False
     
-           
-# match the info of scene, objec, bbox 
-
-
-# unify everything in a single dataset
-
-
+# save final_dataset
+final_dataset_path = os.path.join(data_folder_path, 'final_dataset.json')
+with open(final_dataset_path, 'w') as f:
+    json.dump(final_dataset, f)
