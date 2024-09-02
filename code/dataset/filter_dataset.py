@@ -690,9 +690,9 @@ coco_objects_list = []
 for target in coco_object_cat:
     coco_objects_list.append(target['name'])
 coco_objects_list = sorted(coco_objects_list, key=len, reverse=True)
-
+print(coco_objects_list)
 # Get the masked image with target and scene category
-for i, image_name in enumerate(IMAGE_NAMES[:]):
+for i, image_name in enumerate(IMAGE_NAMES[:1]):
     print(image_name)
     final_dataset[image_name] = {}
     
