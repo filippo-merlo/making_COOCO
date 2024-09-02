@@ -708,8 +708,9 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     for scene in sorted(sun_scene_to_keep, key=len, reverse=True):
         if re.search(scene.replace('/','_'), img_data):
             scene_name = scene
-            img_data = img_data.replace(scene, '')
+            img_data = img_data.replace(scene.replace('/','_'), '')
             break
+        
     print(img_data)
     # get target remove target
     for target in coco_objects_list:
