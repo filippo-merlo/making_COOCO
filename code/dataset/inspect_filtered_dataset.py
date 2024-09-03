@@ -724,8 +724,9 @@ print(set(all_swapped_objects))
 
 
 for swapped_object in set(all_swapped_objects):
-    if swapped_object.replace('_', ' ') in things_words_context:
-        continue
-    else:
-        print(swapped_object)
-        print(swapped_object.replace('_', ' '))
+    if swapped_object:
+        if swapped_object.replace('_', ' ') in things_words_context:
+            continue
+        else:
+            print(swapped_object)
+            print(swapped_object.replace('_', ' '))
