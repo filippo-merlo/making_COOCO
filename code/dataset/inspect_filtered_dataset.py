@@ -714,12 +714,17 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     
     final_dataset[image_name]['swapped_object'] = swapped_object
     all_swapped_objects.append(swapped_object)
+    
+    all_excluded.append(final_dataset[image_name]['excluded'])
+
 
 print(set(all_swapped_objects))
-
 for swapped_object in set(all_swapped_objects):
     if swapped_object:
         if swapped_object in things_words_context:
             continue
         else:
             print(swapped_object)
+
+print(len(IMAGE_NAMES))
+print(len(all_excluded))
