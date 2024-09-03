@@ -727,4 +727,4 @@ for swapped_object in set(all_swapped_objects):
             print(swapped_object)
 
 print(len(IMAGE_NAMES))
-print(len(all_excluded))
+print(sum(all_excluded))
