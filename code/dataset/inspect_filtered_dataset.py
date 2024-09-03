@@ -719,7 +719,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 print(len(set(all_scene)))
 print(len(set(all_target_objects)))
 print(len(set(all_swapped_objects)))
-print(len(set(all_target_bboxes)))
+#print(len(set(all_target_bboxes)))
 print(len(set(all_rel_levels)))
 print(len(set(all_rel_scores)))
 print(len(set(all_excluded)))
