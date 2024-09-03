@@ -687,11 +687,9 @@ def resize_bbox(old_bbox, old_size, new_size):
     
 }
 '''
-final_dataset_path = os.path.join(data_folder_path, 'final_dataset.json')
+final_dataset_path = os.path.join(data_folder_path, 'final_sceneRegData.json')
 with open(final_dataset_path, 'r') as f:
     final_dataset = json.load(f)
-
-from pprint import pprint
 
 coco_objects_list = []
 for target in coco_object_cat:
@@ -709,20 +707,14 @@ all_excluded = []
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:]):
     swapped_object = final_dataset[image_name]['swapped_object']
-    if swapped_object:
-        swapped_object = swapped_object.replace('_',' ')
-    
-    final_dataset[image_name]['swapped_object'] = swapped_object
-    all_swapped_objects.append(swapped_object)
-    
-    all_excluded.append(final_dataset[image_name]['excluded'])
+    exluded = final_dataset[image_name]['excluded']
 
-    if not final_dataset[image_name]['excluded']:
+    all_swapped_objects.append(swapped_object)
+    all_excluded.append(exluded)
+
+    if final_dataset[image_name]['excluded']:
         print(image_name)
 
-final_dataset_path_fin = os.path.join(data_folder_path, 'final_sceneRegData.json')
-with open(final_dataset_path_fin, 'w') as f:
-    json.dump(final_dataset, f)
 
 print(set(all_swapped_objects))
 for swapped_object in set(all_swapped_objects):
