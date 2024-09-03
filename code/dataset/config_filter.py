@@ -121,4 +121,4 @@ def init_image_prep_models():
 
     return simple_lama, llava_processor, llava_model
 #
-simple_lama, llava_processor, llava_model = init_image_prep_models()
+#simple_lama, llava_processor, llava_model = init_image_prep_models()
