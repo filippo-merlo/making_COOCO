@@ -717,6 +717,12 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     
     all_excluded.append(final_dataset[image_name]['excluded'])
 
+    if not final_dataset[image_name]['excluded']:
+        print(image_name)
+
+final_dataset_path_fin = os.path.join(data_folder_path, 'final_sceneRegData.json')
+with open(final_dataset_path_fin, 'w') as f:
+    json.dump(final_dataset, f)
 
 print(set(all_swapped_objects))
 for swapped_object in set(all_swapped_objects):
@@ -728,3 +734,5 @@ for swapped_object in set(all_swapped_objects):
 
 print(len(IMAGE_NAMES))
 print(sum(all_excluded))
+#12914
+#792
