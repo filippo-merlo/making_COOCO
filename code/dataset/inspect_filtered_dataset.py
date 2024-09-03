@@ -716,9 +716,9 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
     all_rel_scores.append(final_dataset[image_name]['rel_score'])
     all_excluded.append(final_dataset[image_name]['excluded'])
 
-print(set(all_scene))
-print(set(all_target_objects))
-print(len(set(all_swapped_objects)))
+#print(set(all_scene))
+#print(set(all_target_objects))
+print(set(all_swapped_objects))
 #print(len(set(all_target_bboxes)))
 print(len(set(all_rel_levels)))
 print(len(set(all_rel_scores)))
