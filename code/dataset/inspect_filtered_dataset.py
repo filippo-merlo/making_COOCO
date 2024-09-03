@@ -708,25 +708,18 @@ all_excluded = []
 
 # Get the masked image with target and scene category
 for i, image_name in enumerate(IMAGE_NAMES[:]):
-    all_scene.append(final_dataset[image_name]['scene'])
-    all_target_objects.append(final_dataset[image_name]['target'])
-    all_swapped_objects.append(final_dataset[image_name]['swapped_object'])
-    all_target_bboxes.append(final_dataset[image_name]['target_bbox'])
-    all_rel_levels.append(final_dataset[image_name]['rel_level'])
-    all_rel_scores.append(final_dataset[image_name]['rel_score'])
-    all_excluded.append(final_dataset[image_name]['excluded'])
+    swapped_object = final_dataset[image_name]['swapped_object']
+    if swapped_object:
+        swapped_object = swapped_object.replace('_',' ')
+    
+    final_dataset[image_name]['swapped_object'] = swapped_object
+    all_swapped_objects.append(swapped_object)
 
-#print(set(all_scene))
-#print(set(all_target_objects))
 print(set(all_swapped_objects))
-#print(len(set(all_target_bboxes)))
-
-
 
 for swapped_object in set(all_swapped_objects):
     if swapped_object:
-        if swapped_object.replace('_', ' ') in things_words_context:
+        if swapped_object in things_words_context:
             continue
         else:
             print(swapped_object)
-            print(swapped_object.replace('_', ' '))
