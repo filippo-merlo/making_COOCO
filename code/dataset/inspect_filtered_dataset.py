@@ -720,7 +720,12 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
 #print(set(all_target_objects))
 print(set(all_swapped_objects))
 #print(len(set(all_target_bboxes)))
-print(len(set(all_rel_levels)))
-print(len(set(all_rel_scores)))
-print(len(set(all_excluded)))
 
+
+
+for swapped_object in set(all_swapped_objects):
+    if swapped_object.replace('_', ' ') in things_words_context:
+        continue
+    else:
+        print(swapped_object)
+        print(swapped_object.replace('_', ' '))
