@@ -754,7 +754,7 @@ for i, image_name in enumerate(IMAGE_NAMES[:]):
             art = 'a'
         prompt = f"{art} {swapped_object.replace('_',' ')}"
         # generate prompt
-        prompt_llava_1 = f"Write a general description of the object \"{swapped_object.replace('_',' ')}\". Focus only on its appearnece. Be concise."
+        prompt_llava_1 = f"Write a general description of the object \"{swapped_object.replace('_',' ')}\". Focus only on its appearence. Be concise."
         inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to("cuda")
         output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
         full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)

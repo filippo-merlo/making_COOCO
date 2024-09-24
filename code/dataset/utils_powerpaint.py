@@ -636,7 +636,7 @@ def generate_new_images(data, image_names):
             image_clean.save(save_path_clean)
             print(i)
             i += 1
-            '''
+
             image, mask = get_square_image(image_clean, target_bbox)
             mask = mask.convert('RGB')
 
@@ -670,7 +670,7 @@ def generate_new_images(data, image_names):
                         art = 'a'
                     prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
                     # generate prompt
-                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece. Be concise."
+                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearance. Be concise."
                     inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
                     output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
                     full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
@@ -678,7 +678,7 @@ def generate_new_images(data, image_names):
                     prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
                     print(prompt)
                     shape_guided_prompt = prompt
-                    shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features, mannequins, dolls, humanoid shapes'
+                    shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features'
                     fitting_degree = 0.6 # 0-1
                     ddim_steps = 45 # 1-50
                     #scale = 7.5 # 1-30
@@ -729,7 +729,7 @@ def generate_new_images(data, image_names):
                             regenerate = False
                         else:
                             scale += 7.5
-        '''
+
         except Exception as e:
             print(e)
             continue
