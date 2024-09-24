@@ -627,10 +627,13 @@ def generate_new_images(data, image_names):
             # Get the masked image with target and scene category
             target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
             save_path_original = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_original.jpg")
-            image_picture.save(save_path_original)
+            #image_picture.save(save_path_original)
 
             # remove the object before background
             image_clean = remove_object(image_picture, object_mask)
+            save_path_clean = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_clean.jpg")
+            image_clean.save(save_path_clean)
+            '''
             image, mask = get_square_image(image_clean, target_bbox)
             mask = mask.convert('RGB')
 
@@ -664,7 +667,7 @@ def generate_new_images(data, image_names):
                         art = 'a'
                     prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
                     # generate prompt
-                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece. Be syntetic and concise."
+                    prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearnece. Be concise."
                     inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
                     output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
                     full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
@@ -723,6 +726,7 @@ def generate_new_images(data, image_names):
                             regenerate = False
                         else:
                             scale += 7.5
+        '''
         except Exception as e:
             print(e)
             continue
