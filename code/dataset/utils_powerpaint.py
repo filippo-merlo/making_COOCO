@@ -622,6 +622,7 @@ def get_square_image(image, target_bbox):
 from tqdm import tqdm
 
 def generate_new_images(data, image_names):
+    i = 0 
     for img_name in tqdm(image_names):
         try:
             # Get the masked image with target and scene category
@@ -633,6 +634,8 @@ def generate_new_images(data, image_names):
             image_clean = remove_object(image_picture, object_mask)
             save_path_clean = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_clean.jpg")
             image_clean.save(save_path_clean)
+            print(i)
+            i += 1
             '''
             image, mask = get_square_image(image_clean, target_bbox)
             mask = mask.convert('RGB')
