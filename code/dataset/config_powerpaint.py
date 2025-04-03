@@ -6,12 +6,12 @@ import os
 import json
 
 # DECLARE PATHS
-CACHE_DIR_SHARED = '/mnt/cimec-storage6/shared/hf_llms_checkpoints'
-CACHE_DIR_SHARED_POWERPAINT = '/mnt/cimec-storage6/shared/PowerPaint/checkpoints/ppt-v2'
-CACHE_DIR_PRIVATE = '/mnt/cimec-storage6/users/filippo.merlo'
+CACHE_DIR_SHARED = '/home/fmerlo/data/sceneregstorage/models/hf_llms_checkpoints'
+CACHE_DIR_SHARED_POWERPAINT = '/home/fmerlo/data/sceneregstorage/models/PowerPaint/checkpoints/ppt-v2'
+CACHE_DIR_PRIVATE = '/home/fmerlo/data/sceneregstorage/cache'
 
 # Path for the data folder
-data_folder_path = '/mnt/cimec-storage6/users/filippo.merlo/sceneREG_data/'
+data_folder_path = '/home/fmerlo/data/sceneREG_data/'
 
 # Paths for making the dataset 
 coco_ann_path = os.path.join(data_folder_path,'coco_search18/coco_annotations')
@@ -154,7 +154,7 @@ vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_
 from powerPaint import *
 
 weight_dtype = "float16"
-checkpoint_dir = "/mnt/cimec-storage6/shared/PowerPaint/checkpoints/ppt-v2-1"
+checkpoint_dir = "/home/fmerlo/data/models/PowerPaint/checkpoints/ppt-v2-1"
 version = "ppt-v2"
 local_files_only = True
 # initialize the pipeline controller
