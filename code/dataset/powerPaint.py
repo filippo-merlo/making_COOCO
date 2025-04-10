@@ -21,7 +21,7 @@ from powerpaint.pipelines.pipeline_PowerPaint_ControlNet import (
 from powerpaint.utils.utils import TokenizerWrapper, add_tokens
 
 
-CACHE_DIR_SHARED = '/home/fmerlo/data/sceneregstorage/models/hf_llms_checkpoints'
+CACHE_DIR_SHARED = '/home/fmerlo/data/sceneregstorage/sceneREG_data/models/hf_llms_checkpoints'
 
 torch.set_grad_enabled(False)
 

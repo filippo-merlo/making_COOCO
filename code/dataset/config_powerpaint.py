@@ -154,7 +154,7 @@ vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_
 from powerPaint import *
 
 weight_dtype = "float16"
-checkpoint_dir = "/home/fmerlo/data/models/PowerPaint/checkpoints/ppt-v2-1"
+checkpoint_dir = "/home/fmerlo/data/sceneregstorage/models/ppt/PowerPaint-v2-1"
 version = "ppt-v2"
 local_files_only = True
 # initialize the pipeline controller
