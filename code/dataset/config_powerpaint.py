@@ -11,7 +11,7 @@ CACHE_DIR_SHARED_POWERPAINT = '/home/fmerlo/data/sceneregstorage/models/PowerPai
 CACHE_DIR_PRIVATE = '/home/fmerlo/data/sceneregstorage/cache'
 
 # Path for the data folder
-data_folder_path = '/home/fmerlo/data/sceneREG_data/'
+data_folder_path = '/home/fmerlo/data/sceneregstorage/sceneREG_data/'
 
 # Paths for making the dataset 
 coco_ann_path = os.path.join(data_folder_path,'coco_search18/coco_annotations')
