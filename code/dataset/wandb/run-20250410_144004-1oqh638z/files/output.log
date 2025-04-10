@@ -1,0 +1,28 @@
+[34m[1mwandb[39m[22m: Downloading large artifact model-on5m6wmj:v0, 328.51MB. 3 files...
+[34m[1mwandb[39m[22m:   3 of 3 files downloaded.
+Done. 0:0:11.8
+preprocessor_config.json: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 160/160 [00:00<00:00, 42.0kB/s]
+config.json: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 69.7k/69.7k [00:00<00:00, 51.4MB/s]
+Fast image processor class <class 'transformers.models.vit.image_processing_vit_fast.ViTImageProcessorFast'> is available for this model. Using slow image processor class. To use the fast image processor class set `use_fast=True`.
+Traceback (most recent call last):
+  File "/data/sceneregstorage/scenereg_project_AAA/code/dataset/config_powerpaint.py", line 120, in init_image_prep_models
+    vit_model = ViTForImageClassification.from_pretrained(
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/transformers/modeling_utils.py", line 2861, in to
+    return super().to(*args, **kwargs)
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1174, in to
+    return self._apply(convert)
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 780, in _apply
+    module._apply(fn)
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 780, in _apply
+    module._apply(fn)
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 780, in _apply
+    module._apply(fn)
+  [Previous line repeated 1 more time]
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 805, in _apply
+    param_applied = fn(param)
+  File "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1160, in convert
+    return t.to(
+RuntimeError: CUDA error: invalid device ordinal
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
