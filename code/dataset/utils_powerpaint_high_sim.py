@@ -627,13 +627,13 @@ def generate_new_images(data, image_names):
         try:
             # Get the masked image with target and scene category
             target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
-            save_path_original = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_original.jpg")
+            #save_path_original = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_original.jpg")
             #image_picture.save(save_path_original)
 
             # remove the object before background
             image_clean = remove_object(image_picture, object_mask)
-            save_path_clean = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_clean.jpg")
-            image_clean.save(save_path_clean)
+            #save_path_clean = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_clean.jpg")
+            #image_clean.save(save_path_clean)
             print(i)
             i += 1
 
@@ -724,7 +724,7 @@ def generate_new_images(data, image_names):
                             print(full_output_llava)
 
                             if "Yes" in full_output_llava[-5:]:
-                                save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
+                                save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
                                 dict_out[0].save(save_path)
                                 regenerate = False
                                 generated_object_counter += 1
