@@ -661,9 +661,10 @@ def generate_new_images(data, image_names):
                     full_output_llava_pre = llava_processor.decode(output_llava_pre[0], skip_special_tokens=True)
                     print(full_output_llava_pre)
 
-                    if "No" in full_output_llava_pre[-5:]:
-                        if generated_object_counter >= 3:
+                    if generated_object_counter >= 3:
                             break
+
+                    if "No" in full_output_llava_pre[-5:]:
                         regenerate = True
                         scale = 7.5 # 1-30
                         # prompt
