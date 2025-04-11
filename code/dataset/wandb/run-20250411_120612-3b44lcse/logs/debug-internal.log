@@ -1,0 +1,180 @@
+2025-04-11 12:06:12,332 INFO    StreamThr :48774 [internal.py:wandb_internal():86] W&B internal server running at pid: 48774, started at: 2025-04-11 12:06:12.332042
+2025-04-11 12:06:12,334 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: status
+2025-04-11 12:06:12,335 INFO    WriterThread:48774 [datastore.py:open_for_write():87] open: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/run-3b44lcse.wandb
+2025-04-11 12:06:12,335 DEBUG   SenderThread:48774 [sender.py:send():379] send: header
+2025-04-11 12:06:12,357 DEBUG   SenderThread:48774 [sender.py:send():379] send: run
+2025-04-11 12:06:12,672 INFO    SenderThread:48774 [dir_watcher.py:__init__():211] watching files in: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files
+2025-04-11 12:06:12,672 INFO    SenderThread:48774 [sender.py:_start_run_threads():1124] run started: 3b44lcse with start time 1744365972.331565
+2025-04-11 12:06:12,679 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: check_version
+2025-04-11 12:06:12,679 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: check_version
+2025-04-11 12:06:12,738 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: run_start
+2025-04-11 12:06:12,745 DEBUG   HandlerThread:48774 [system_info.py:__init__():26] System info init
+2025-04-11 12:06:12,745 DEBUG   HandlerThread:48774 [system_info.py:__init__():41] System info init done
+2025-04-11 12:06:12,745 INFO    HandlerThread:48774 [system_monitor.py:start():194] Starting system monitor
+2025-04-11 12:06:12,745 INFO    SystemMonitor:48774 [system_monitor.py:_start():158] Starting system asset monitoring threads
+2025-04-11 12:06:12,745 INFO    HandlerThread:48774 [system_monitor.py:probe():214] Collecting system info
+2025-04-11 12:06:12,748 INFO    SystemMonitor:48774 [interfaces.py:start():190] Started cpu monitoring
+2025-04-11 12:06:12,748 INFO    SystemMonitor:48774 [interfaces.py:start():190] Started disk monitoring
+2025-04-11 12:06:12,749 INFO    SystemMonitor:48774 [interfaces.py:start():190] Started gpu monitoring
+2025-04-11 12:06:12,750 INFO    SystemMonitor:48774 [interfaces.py:start():190] Started memory monitoring
+2025-04-11 12:06:12,751 INFO    SystemMonitor:48774 [interfaces.py:start():190] Started network monitoring
+2025-04-11 12:06:12,753 DEBUG   HandlerThread:48774 [system_info.py:probe():150] Probing system
+2025-04-11 12:06:12,758 DEBUG   HandlerThread:48774 [system_info.py:_probe_git():135] Probing git
+2025-04-11 12:06:12,766 DEBUG   HandlerThread:48774 [system_info.py:_probe_git():143] Probing git done
+2025-04-11 12:06:12,766 DEBUG   HandlerThread:48774 [system_info.py:probe():198] Probing system done
+2025-04-11 12:06:12,766 DEBUG   HandlerThread:48774 [system_monitor.py:probe():223] {'os': 'Linux-5.4.0-182-generic-x86_64-with-glibc2.31', 'python': '3.9.19', 'heartbeatAt': '2025-04-11T10:06:12.753308', 'startedAt': '2025-04-11T10:06:12.328084', 'docker': None, 'cuda': None, 'args': (), 'state': 'running', 'program': '/data/sceneregstorage/scenereg_project_AAA/code/dataset/generate.py', 'codePathLocal': 'generate.py', 'codePath': 'code/dataset/generate.py', 'git': {'remote': 'https://github.com/filippo-merlo/scenereg_project_AAA.git', 'commit': '198567b5732d038a7c0d5b3d11f49648062a561d'}, 'email': 'filippo99merlo@gmail.com', 'root': '/data/sceneregstorage/scenereg_project_AAA', 'host': 'scenereg.beta-groundingm.src.surf-hosted.nl', 'username': 'fmerlo', 'executable': '/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/bin/python3', 'cpu_count': 11, 'cpu_count_logical': 11, 'cpu_freq': {'current': 2793.3630000000007, 'min': 0.0, 'max': 0.0}, 'cpu_freq_per_core': [{'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}, {'current': 2793.363, 'min': 0.0, 'max': 0.0}], 'disk': {'/': {'total': 96.73210144042969, 'used': 16.60004425048828}}, 'gpu': 'NVIDIA A10', 'gpu_count': 1, 'gpu_devices': [{'name': 'NVIDIA A10', 'memory_total': 25757220864}], 'memory': {'total': 86.42545700073242}}
+2025-04-11 12:06:12,766 INFO    HandlerThread:48774 [system_monitor.py:probe():224] Finished collecting system info
+2025-04-11 12:06:12,766 INFO    HandlerThread:48774 [system_monitor.py:probe():227] Publishing system info
+2025-04-11 12:06:12,766 DEBUG   HandlerThread:48774 [system_info.py:_save_conda():207] Saving list of conda packages installed into the current environment
+2025-04-11 12:06:13,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_created():271] file/dir created: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/conda-environment.yaml
+2025-04-11 12:06:14,236 DEBUG   HandlerThread:48774 [system_info.py:_save_conda():222] Saving conda packages done
+2025-04-11 12:06:14,236 INFO    HandlerThread:48774 [system_monitor.py:probe():229] Finished publishing system info
+2025-04-11 12:06:14,238 DEBUG   SenderThread:48774 [sender.py:send():379] send: files
+2025-04-11 12:06:14,239 INFO    SenderThread:48774 [sender.py:_save_file():1390] saving file wandb-metadata.json with policy now
+2025-04-11 12:06:14,312 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: python_packages
+2025-04-11 12:06:14,313 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: python_packages
+2025-04-11 12:06:14,315 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: internal_messages
+2025-04-11 12:06:14,315 DEBUG   SenderThread:48774 [sender.py:send():379] send: telemetry
+2025-04-11 12:06:14,316 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: stop_status
+2025-04-11 12:06:14,316 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: stop_status
+2025-04-11 12:06:14,672 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/conda-environment.yaml
+2025-04-11 12:06:14,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_created():271] file/dir created: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/wandb-metadata.json
+2025-04-11 12:06:14,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_created():271] file/dir created: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/requirements.txt
+2025-04-11 12:06:14,733 INFO    wandb-upload_0:48774 [upload_job.py:push():131] Uploaded file /tmp/tmp3gchqia2wandb/66pdcjvq-wandb-metadata.json
+2025-04-11 12:06:15,002 DEBUG   SenderThread:48774 [sender.py:send():379] send: use_artifact
+2025-04-11 12:06:15,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_created():271] file/dir created: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/output.log
+2025-04-11 12:06:16,619 DEBUG   SenderThread:48774 [sender.py:send():379] send: telemetry
+2025-04-11 12:06:16,619 DEBUG   SenderThread:48774 [sender.py:send():379] send: exit
+2025-04-11 12:06:16,619 INFO    SenderThread:48774 [sender.py:send_exit():586] handling exit code: 0
+2025-04-11 12:06:16,619 INFO    SenderThread:48774 [sender.py:send_exit():588] handling runtime: 3
+2025-04-11 12:06:16,620 INFO    SenderThread:48774 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2025-04-11 12:06:16,621 INFO    SenderThread:48774 [sender.py:send_exit():594] send defer
+2025-04-11 12:06:16,621 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,621 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 0
+2025-04-11 12:06:16,621 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,621 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 0
+2025-04-11 12:06:16,621 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 1
+2025-04-11 12:06:16,621 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,621 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 1
+2025-04-11 12:06:16,621 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,621 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 1
+2025-04-11 12:06:16,622 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 2
+2025-04-11 12:06:16,622 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,622 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 2
+2025-04-11 12:06:16,622 INFO    HandlerThread:48774 [system_monitor.py:finish():203] Stopping system monitor
+2025-04-11 12:06:16,622 DEBUG   SystemMonitor:48774 [system_monitor.py:_start():172] Starting system metrics aggregation loop
+2025-04-11 12:06:16,622 DEBUG   SystemMonitor:48774 [system_monitor.py:_start():179] Finished system metrics aggregation loop
+2025-04-11 12:06:16,622 DEBUG   SystemMonitor:48774 [system_monitor.py:_start():183] Publishing last batch of metrics
+2025-04-11 12:06:16,623 INFO    HandlerThread:48774 [interfaces.py:finish():202] Joined cpu monitor
+2025-04-11 12:06:16,623 INFO    HandlerThread:48774 [interfaces.py:finish():202] Joined disk monitor
+2025-04-11 12:06:16,641 INFO    HandlerThread:48774 [interfaces.py:finish():202] Joined gpu monitor
+2025-04-11 12:06:16,642 INFO    HandlerThread:48774 [interfaces.py:finish():202] Joined memory monitor
+2025-04-11 12:06:16,642 INFO    HandlerThread:48774 [interfaces.py:finish():202] Joined network monitor
+2025-04-11 12:06:16,642 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,642 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 2
+2025-04-11 12:06:16,642 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 3
+2025-04-11 12:06:16,642 DEBUG   SenderThread:48774 [sender.py:send():379] send: stats
+2025-04-11 12:06:16,642 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,642 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 3
+2025-04-11 12:06:16,642 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,643 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 3
+2025-04-11 12:06:16,643 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 4
+2025-04-11 12:06:16,643 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,643 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 4
+2025-04-11 12:06:16,643 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,643 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 4
+2025-04-11 12:06:16,643 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 5
+2025-04-11 12:06:16,643 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,643 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 5
+2025-04-11 12:06:16,643 DEBUG   SenderThread:48774 [sender.py:send():379] send: summary
+2025-04-11 12:06:16,644 INFO    SenderThread:48774 [sender.py:_save_file():1390] saving file wandb-summary.json with policy end
+2025-04-11 12:06:16,644 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,644 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 5
+2025-04-11 12:06:16,644 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 6
+2025-04-11 12:06:16,644 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,644 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 6
+2025-04-11 12:06:16,644 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,644 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 6
+2025-04-11 12:06:16,647 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: status_report
+2025-04-11 12:06:16,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_created():271] file/dir created: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/wandb-summary.json
+2025-04-11 12:06:16,800 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 7
+2025-04-11 12:06:16,800 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:16,800 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 7
+2025-04-11 12:06:16,800 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:16,800 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 7
+2025-04-11 12:06:17,290 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 8
+2025-04-11 12:06:17,290 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:17,290 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 8
+2025-04-11 12:06:17,290 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:17,290 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 8
+2025-04-11 12:06:17,290 INFO    SenderThread:48774 [job_builder.py:build():318] Attempting to build job artifact
+2025-04-11 12:06:17,291 INFO    SenderThread:48774 [job_builder.py:_get_source_type():455] is repo sourced job
+2025-04-11 12:06:17,312 INFO    SenderThread:48774 [job_builder.py:build():431] adding wandb-job metadata file
+2025-04-11 12:06:17,318 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 9
+2025-04-11 12:06:17,318 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:17,318 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 9
+2025-04-11 12:06:17,318 DEBUG   SenderThread:48774 [sender.py:send():379] send: artifact
+2025-04-11 12:06:17,620 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: poll_exit
+2025-04-11 12:06:17,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/config.yaml
+2025-04-11 12:06:17,673 INFO    Thread-12 :48774 [dir_watcher.py:_on_file_modified():288] file/dir modified: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/output.log
+2025-04-11 12:06:18,000 INFO    SenderThread:48774 [sender.py:send_artifact():1468] sent artifact job-https___github.com_filippo-merlo_scenereg_project_AAA.git_code_dataset_generate.py - {'id': 'QXJ0aWZhY3Q6MTY0NTQ5MDk1Mw==', 'state': 'COMMITTED', 'artifactSequence': {'id': 'QXJ0aWZhY3RDb2xsZWN0aW9uOjM1Mzg1MDYxNg==', 'latestArtifact': {'id': 'QXJ0aWZhY3Q6MTY0NTQ5MDk1Mw==', 'versionIndex': 37}}}
+2025-04-11 12:06:18,000 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:18,000 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 9
+2025-04-11 12:06:18,000 INFO    SenderThread:48774 [dir_watcher.py:finish():358] shutting down directory watcher
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():388] scan: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/config.yaml config.yaml
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/conda-environment.yaml conda-environment.yaml
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/wandb-metadata.json wandb-metadata.json
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/requirements.txt requirements.txt
+2025-04-11 12:06:18,674 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/output.log output.log
+2025-04-11 12:06:18,675 INFO    SenderThread:48774 [dir_watcher.py:finish():402] scan save: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/wandb-summary.json wandb-summary.json
+2025-04-11 12:06:18,675 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 10
+2025-04-11 12:06:18,675 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: poll_exit
+2025-04-11 12:06:18,675 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:18,675 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 10
+2025-04-11 12:06:18,682 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:18,682 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 10
+2025-04-11 12:06:18,682 INFO    SenderThread:48774 [file_pusher.py:finish():172] shutting down file pusher
+2025-04-11 12:06:19,047 INFO    wandb-upload_0:48774 [upload_job.py:push():131] Uploaded file /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/conda-environment.yaml
+2025-04-11 12:06:19,057 INFO    wandb-upload_2:48774 [upload_job.py:push():131] Uploaded file /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/requirements.txt
+2025-04-11 12:06:19,148 INFO    wandb-upload_1:48774 [upload_job.py:push():131] Uploaded file /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/config.yaml
+2025-04-11 12:06:19,159 INFO    wandb-upload_4:48774 [upload_job.py:push():131] Uploaded file /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/wandb-summary.json
+2025-04-11 12:06:19,164 INFO    wandb-upload_3:48774 [upload_job.py:push():131] Uploaded file /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/files/output.log
+2025-04-11 12:06:19,364 INFO    Thread-11 :48774 [sender.py:transition_state():614] send defer: 11
+2025-04-11 12:06:19,365 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:19,365 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 11
+2025-04-11 12:06:19,365 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:19,365 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 11
+2025-04-11 12:06:19,365 INFO    SenderThread:48774 [file_pusher.py:join():178] waiting for file pusher
+2025-04-11 12:06:19,365 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 12
+2025-04-11 12:06:19,365 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:19,366 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 12
+2025-04-11 12:06:19,366 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:19,366 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 12
+2025-04-11 12:06:19,366 INFO    SenderThread:48774 [file_stream.py:finish():614] file stream finish called
+2025-04-11 12:06:19,522 INFO    SenderThread:48774 [file_stream.py:finish():618] file stream finish is done
+2025-04-11 12:06:19,522 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 13
+2025-04-11 12:06:19,522 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:19,522 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 13
+2025-04-11 12:06:19,522 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:19,522 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 13
+2025-04-11 12:06:19,522 INFO    SenderThread:48774 [sender.py:transition_state():614] send defer: 14
+2025-04-11 12:06:19,523 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: defer
+2025-04-11 12:06:19,523 INFO    HandlerThread:48774 [handler.py:handle_request_defer():172] handle defer: 14
+2025-04-11 12:06:19,523 DEBUG   SenderThread:48774 [sender.py:send():379] send: final
+2025-04-11 12:06:19,523 DEBUG   SenderThread:48774 [sender.py:send():379] send: footer
+2025-04-11 12:06:19,523 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: defer
+2025-04-11 12:06:19,523 INFO    SenderThread:48774 [sender.py:send_request_defer():610] handle sender defer: 14
+2025-04-11 12:06:19,524 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: poll_exit
+2025-04-11 12:06:19,524 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: poll_exit
+2025-04-11 12:06:19,525 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: internal_messages
+2025-04-11 12:06:19,526 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: server_info
+2025-04-11 12:06:19,526 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: get_summary
+2025-04-11 12:06:19,526 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: sampled_history
+2025-04-11 12:06:19,526 DEBUG   SenderThread:48774 [sender.py:send_request():406] send_request: server_info
+2025-04-11 12:06:19,639 DEBUG   HandlerThread:48774 [handler.py:handle_request():146] handle_request: shutdown
+2025-04-11 12:06:19,639 INFO    HandlerThread:48774 [handler.py:finish():866] shutting down handler
+2025-04-11 12:06:20,526 INFO    WriterThread:48774 [datastore.py:close():296] close: /data/sceneregstorage/scenereg_project_AAA/code/dataset/wandb/run-20250411_120612-3b44lcse/run-3b44lcse.wandb
+2025-04-11 12:06:20,638 INFO    SenderThread:48774 [sender.py:finish():1546] shutting down sender
+2025-04-11 12:06:20,639 INFO    SenderThread:48774 [file_pusher.py:finish():172] shutting down file pusher
+2025-04-11 12:06:20,639 INFO    SenderThread:48774 [file_pusher.py:join():178] waiting for file pusher

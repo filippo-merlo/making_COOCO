@@ -1,0 +1,103 @@
+{
+    "os": "Linux-5.4.0-182-generic-x86_64-with-glibc2.31",
+    "python": "3.9.19",
+    "heartbeatAt": "2025-04-11T13:28:51.618636",
+    "startedAt": "2025-04-11T13:28:51.118232",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/data/sceneregstorage/scenereg_project_AAA/code/dataset/generate.py",
+    "codePathLocal": "generate.py",
+    "codePath": "code/dataset/generate.py",
+    "git": {
+        "remote": "https://github.com/filippo-merlo/scenereg_project_AAA.git",
+        "commit": "198567b5732d038a7c0d5b3d11f49648062a561d"
+    },
+    "email": "filippo99merlo@gmail.com",
+    "root": "/data/sceneregstorage/scenereg_project_AAA",
+    "host": "scenereg.beta-groundingm.src.surf-hosted.nl",
+    "username": "fmerlo",
+    "executable": "/home/fmerlo/data/sceneregstorage/miniconda3/envs/ppt/bin/python3",
+    "cpu_count": 11,
+    "cpu_count_logical": 11,
+    "cpu_freq": {
+        "current": 2793.411,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2793.411,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 96.73210144042969,
+            "used": 25.033729553222656
+        }
+    },
+    "gpu": "NVIDIA A10",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA A10",
+            "memory_total": 24146608128
+        }
+    ],
+    "memory": {
+        "total": 86.42545318603516
+    }
+}

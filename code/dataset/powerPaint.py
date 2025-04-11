@@ -142,16 +142,14 @@ class PowerPaintController:
                 subfolder="unet",
                 revision=None,
                 torch_dtype=weight_dtype,
-                cache_dir=CACHE_DIR_SHARED
-                #local_files_only=local_files_only,
+                local_files_only=local_files_only,
             )
             text_encoder_brushnet = CLIPTextModel.from_pretrained(
                 "runwayml/stable-diffusion-v1-5",
                 subfolder="text_encoder",
                 revision=None,
                 torch_dtype=weight_dtype,
-                cache_dir=CACHE_DIR_SHARED
-                #local_files_only=local_files_only,
+                local_files_only=local_files_only,
             )
             brushnet = BrushNetModel.from_unet(unet)
             base_model_path = os.path.join(checkpoint_dir, "realisticVisionV60B1_v51VAE")
@@ -199,6 +197,7 @@ class PowerPaintController:
 
             self.pipe.enable_model_cpu_offload()
             self.pipe = self.pipe.to("cuda")
+
 
     def get_depth_map(self, image):
         image = self.feature_extractor(images=image, return_tensors="pt").pixel_values.to("cuda")

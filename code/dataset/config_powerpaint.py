@@ -153,10 +153,7 @@ vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_
 # POWERPAINT CONFIG
 from powerPaint import *
 
-weight_dtype = "float16"
-checkpoint_dir = "/home/fmerlo/data/sceneregstorage/models/ppt/PowerPaint-v2-1"
-version = "ppt-v2"
-local_files_only = True
-# initialize the pipeline controller
-weight_dtype = torch.float16
-controller = PowerPaintController(weight_dtype, checkpoint_dir, local_files_only, version)
+checkpoint_dir = "/home/fmerlo/data/sceneregstorage/models/PowerPaint-v2-1"
+version = "ppt-v2-1"
+controller = PowerPaintController(torch.float32, checkpoint_dir, True, version)
+

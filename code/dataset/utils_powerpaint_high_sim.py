@@ -624,6 +624,7 @@ from tqdm import tqdm
 def generate_new_images(data, image_names):
     i = 0 
     for img_name in tqdm(image_names):
+        print(img_name)
         try:
             # Get the masked image with target and scene category
             target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
