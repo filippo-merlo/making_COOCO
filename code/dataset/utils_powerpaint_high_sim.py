@@ -103,7 +103,7 @@ def cosine_similarity(vec1, vec2, epsilon=1e-10):
     # Compute the cosine similarity
     cosine_sim = dot_product / denominator
     
-    return cosine_sim
+    return abs(cosine_sim)
 
 def select_k(alist, k, lower = True):
     """
@@ -289,7 +289,9 @@ def get_coco_image_data(data, img_name = None):
         # Additionally, crop the original image (without the mask) to the same bounding box
 
         # Classify scene
-        scene_category = classify_scene_vit(image_picture)
+        #scene_category = classify_scene_vit(image_picture)
+        scene_category = ''
+
         return target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image_pil, image_mask_pil
 
 ### SCENE CLASSIFICATION
@@ -366,12 +368,15 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     size_scores = []
     semantic_relatedness_scores = []
 
+
     #filter by size
     for thing in things_words_context:
         # SEM REL
         scene_vect = scenes2vec[scene_name]
         object_vect = things2vec[thing]
-        semantic_relatedness_scores.append(cosine_similarity(scene_vect, object_vect))
+        target_object_vect = things2vec[map_coco2things[target_object_name]]
+        #semantic_relatedness_scores.append(cosine_similarity(scene_vect, object_vect))
+        semantic_relatedness_scores.append((cosine_similarity(scene_vect, object_vect)+cosine_similarity(object_vect, target_object_vect))/2)
 
         # SIZE
         # target size
@@ -398,14 +403,14 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     
     # get 3 objects with the lowest relatedness score, near to 0
     k = 20
-    r = 20
+    r = 10
     kidxs, vals = select_k(semantic_relatedness_scores, k, lower = True)
-    print(vals)
     things_names = [objects[i] for i in kidxs]
     random_3_names_lower = rn.sample(things_names, r)
 
     # get 3 objects with the higer relatedness score, near to 1
     kidxs, vals = select_k(semantic_relatedness_scores, k, lower = False)
+    print(vals)
     things_names = [objects[i] for i in kidxs]
     random_3_names_higer = rn.sample(things_names, r)
 
@@ -414,7 +419,8 @@ def find_object_for_replacement_continuous(target_object_name, scene_name):
     kidxs, vals = select_k(semantic_relatedness_scores_sub, k, lower = True)
     things_names = [objects[i] for i in kidxs]
     random_3_names_middle = rn.sample(things_names, r)
-
+    print(random_3_names_higer)
+    
     return random_3_names_lower, random_3_names_middle, random_3_names_higer
 
 def get_images_names(substitutes_list):
@@ -623,14 +629,23 @@ from tqdm import tqdm
 
 def generate_new_images(data, image_names):
     i = 0 
+    # Get Scene Data from already generated images of COOCO dataet
+    path_to_COOCO = '/home/fmerlo/data/sceneregstorage/sceneREG_data/final_dataset_resized.json'
+    with open(path_to_COOCO, 'r') as f:
+        data_COOCO = json.load(f)
+    scene_dict = {}
+    for k, v in data_COOCO.items():
+        scene_dict[k.split('_')[0]+'.jpg'] = v['scene']
+
+    
     for img_name in tqdm(image_names):
-        print(img_name)
         try:
             # Get the masked image with target and scene category
-            target, scene_category, image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
+            target, _ , image_picture, image_picture_w_bbox, target_bbox, cropped_target_only_image, object_mask = get_coco_image_data(data,img_name)
+            scene_category = scene_dict[img_name]
             #save_path_original = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_original.jpg")
             #image_picture.save(save_path_original)
-
+            
             # remove the object before background
             image_clean = remove_object(image_picture, object_mask)
             #save_path_clean = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_clean.jpg")
@@ -655,25 +670,24 @@ def generate_new_images(data, image_names):
                 relatedness_lvl = 'high'
 
                 for object_for_replacement in object_list:
+                    if object_for_replacement[0][0] in ['a','e','i','o','u']:
+                            art = 'an'
+                    else:
+                            art = 'a'
                     # Check With LLAVA if the object is present
                     prompt_llava_pre = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image?. Answer only with \"Yes\" or \"No\". [/INST]"
-                    inputs_llava_pre = llava_processor(prompt_llava_pre, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
+                    inputs_llava_pre = llava_processor(prompt_llava_pre, image_picture, return_tensors="pt").to(LLAVA_DEVICE)
                     output_llava_pre = llava_model.generate(**inputs_llava_pre, max_new_tokens=1)
                     full_output_llava_pre = llava_processor.decode(output_llava_pre[0], skip_special_tokens=True)
                     print(full_output_llava_pre)
 
-                    if generated_object_counter >= 3:
+                    if generated_object_counter >= 1:
                             break
 
                     if "No" in full_output_llava_pre[-5:]:
                         regenerate = True
                         scale = 7.5 # 1-30
-                        # prompt
-                        if object_for_replacement[0][0] in ['a','e','i','o','u']:
-                            art = 'an'
-                        else:
-                            art = 'a'
-                        prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+                        
                         # generate prompt
                         prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearance. Be concise."
                         inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
@@ -681,6 +695,8 @@ def generate_new_images(data, image_names):
                         full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
                         full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
                         prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
+                        #prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}."
+
                         print(prompt)
                         shape_guided_prompt = prompt
                         shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features'
@@ -720,13 +736,14 @@ def generate_new_images(data, image_names):
                             )
                             # Check With LLAVA if the object is present
                             prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? {full_output_clean}. Answer only with \"Yes\" or \"No\". [/INST]"
+                            #prompt_llava = f"[INST] <image>\n Is there {art} \"{object_for_replacement.replace('/',' ').replace('_',' ')}\" in the image? Answer only with \"Yes\" or \"No\". [/INST]"
                             inputs_llava = llava_processor(prompt_llava, dict_out[0], return_tensors="pt").to(LLAVA_DEVICE)
                             output_llava = llava_model.generate(**inputs_llava, max_new_tokens=1)
                             full_output_llava = llava_processor.decode(output_llava[0], skip_special_tokens=True)
                             print(full_output_llava)
 
                             if "Yes" in full_output_llava[-5:]:
-                                save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
+                                save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
                                 dict_out[0].save(save_path)
                                 regenerate = False
                                 generated_object_counter += 1

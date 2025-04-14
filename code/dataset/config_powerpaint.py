@@ -106,6 +106,7 @@ id2label = {idx: label for label, idx in label2id.items()}
 scene_to_keep = [1 if scene in sun_scene_to_keep else 0 for scene in sun_scene_cat]
 
 def init_image_prep_models():
+    '''
     with wandb.init(project="vit-base-patch16-224_SUN397") as run:
         # Pass the name and version of Artifact
         my_model_name = "model-on5m6wmj:v0"
@@ -124,6 +125,7 @@ def init_image_prep_models():
             label2id=label2id,
             cache_dir=CACHE_DIR_PRIVATE
         ).to(DEVICE)
+    '''
 
     # Initialize model for IMAGE EMBEDDING
     vitc_image_processor = AutoImageProcessor.from_pretrained("google/vit-base-patch16-224-in21k", cache_dir=CACHE_DIR_PRIVATE)
@@ -146,9 +148,12 @@ def init_image_prep_models():
                                                               cache_dir=CACHE_DIR_SHARED)
 
 
-    return vit_processor, vit_model, vitc_image_processor, vitc_model, simple_lama, llava_processor, llava_model
+    #return vit_processor, vit_model, vitc_image_processor, vitc_model, simple_lama, llava_processor, llava_model
+    return vitc_image_processor, vitc_model, simple_lama, llava_processor, llava_model
 #
-vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_processor, llava_model = init_image_prep_models()
+#vit_processor, vit_model, vitc_image_processor, vitc_model,  simple_lama, llava_processor, llava_model = init_image_prep_models()
+vitc_image_processor, vitc_model,  simple_lama, llava_processor, llava_model = init_image_prep_models()
+
 
 # POWERPAINT CONFIG
 from powerPaint import *
