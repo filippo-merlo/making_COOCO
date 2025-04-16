@@ -658,7 +658,8 @@ def generate_new_images(data, image_names):
                 "image": image,
                 "mask": mask
             }
-            
+
+            relatedness_lvl = 'same_target'
             regenerate = True
             generation_attempt = 0
             scale = 7.5 # 1-30
@@ -715,7 +716,7 @@ def generate_new_images(data, image_names):
 
 
                 if "Yes" in full_output_llava[-5:]:
-                    save_path = os.path.join(data_folder_path+'generated_images', f"{scene_category.replace('/', '_')}/{img_name.replace('.jpg', '')}_{scene_category.replace('/', '_')}_{target.replace('/', '_').replace(' ', '_')}_{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
+                    save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
                     dict_out[0].save(save_path)
                     regenerate = False
                     generated_object_counter += 1
