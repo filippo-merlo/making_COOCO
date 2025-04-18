@@ -1,5 +1,5 @@
 from config_powerpaint import *
-from utils_powerpaint_high_sim import *
+from utils_powerpaint_gen_target import *
 from dataset import *
 
 if __name__ == '__main__':

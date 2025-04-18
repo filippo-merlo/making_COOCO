@@ -668,7 +668,14 @@ def generate_new_images(data, image_names):
                 art = 'an'
             else:
                 art = 'a'
-            prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
+
+            prompt_llava_1 = f"Write a general description of the object \"{object_for_replacement.replace('/',' ').replace('_',' ')}\". Focus only on its appearance. Be concise."
+            inputs_llava_1 = llava_processor(prompt_llava_1, return_tensors="pt").to(LLAVA_DEVICE)
+            output_llava_1 = llava_model.generate(**inputs_llava_1, max_new_tokens=70)
+            full_output_llava_1 = llava_processor.decode(output_llava_1[0], skip_special_tokens=True)
+            full_output_clean = full_output_llava_1.replace(prompt_llava_1, "")
+            prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}. " + full_output_clean
+            #prompt = f"{art} {object_for_replacement.replace('/',' ').replace('_',' ')}"
             shape_guided_prompt = prompt
             shape_guided_negative_prompt = f'{target}, humans, people, person, body, face, head, hands, legs, arms, torso, skin, eyes, mouth, fingers, feet, hair, human-like figures, silhouettes, limbs, human anatomy, human features'
             fitting_degree = 0.6 # 0-1
@@ -716,7 +723,7 @@ def generate_new_images(data, image_names):
 
 
                 if "Yes" in full_output_llava[-5:]:
-                    save_path = os.path.join(data_folder_path+'generated_images', f"{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
+                    save_path = os.path.join(data_folder_path+'generated_images_target', f"{img_name.replace('.jpg', '')}__{scene_category.replace('/', '_')}__{target.replace('/', '_').replace(' ', '_')}__{object_for_replacement.replace('/', '_').replace(' ', '_')}_relscore_{relatedness_lvl}.jpg")
                     dict_out[0].save(save_path)
                     regenerate = False
                     generated_object_counter += 1
